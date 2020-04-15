@@ -5,7 +5,6 @@ import com.incarcloud.grpc.proto.PositionServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test;
  * @author Aaric, created on 2020-04-15T16:37.
  * @version 0.2.0-SNAPSHOT
  */
-@Slf4j
 public class GRpcClientTests {
 
     @Test
@@ -32,7 +30,8 @@ public class GRpcClientTests {
 
             @Override
             public void onNext(Position.PositionDataList value) {
-                log.info("size: \n{}" + value.getPositionDataCount());
+                System.out.println("-----------------------------");
+                System.out.println("size: " + value.getPositionDataCount());
             }
 
             @Override
