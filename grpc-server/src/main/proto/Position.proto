@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.incarcloud.grpc.pojo";
+option java_outer_classname = "Position";
+
+message PositionData {
+    string vin = 1;
+    double longitude = 2;
+    double latitude = 3;
+}
