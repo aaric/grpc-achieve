@@ -4,6 +4,7 @@ buildscript {
         junitPlatformVersion = "1.2.0"
         dependencyManagementVersion = "1.0.9.RELEASE"
         springBootVersion = "2.2.6.RELEASE"
+        protobufVersion = "0.8.12"
     }
 
     repositories {
@@ -16,27 +17,55 @@ buildscript {
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion"
         classpath "io.spring.gradle:dependency-management-plugin:$dependencyManagementVersion"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
     }
 }
 
 allprojects {
+    apply plugin: "java"
+    apply plugin: "io.spring.dependency-management"
+
     group "com.incarcloud"
-    version "0.1.1-SNAPSHOT"
+    version "0.2.0-SNAPSHOT"
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     repositories {
         maven { url "https://maven.aliyun.com/repository/public" }
         maven { url "https://repository.incarcloud.com/content/groups/public" }
     }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+        }
+
+        dependencies {
+            dependencySet(group: "org.slf4j", version: "1.7.30") {
+                entry "slf4j-api"
+                entry "slf4j-simple"
+            }
+
+            dependency "org.flywaydb:flyway-core:5.2.4"
+
+            dependency "org.apache.commons:commons-io:1.3.2"
+            dependency "org.apache.commons:commons-lang3:3.9"
+
+            dependency "com.google.guava:guava:28.2-jre"
+
+            dependency "io.grpc:grpc-all:1.28.1"
+            dependency "javax.annotation:javax.annotation-api:1.3.2"
+            // @see https://github.com/grpc/grpc-java/blob/master/SECURITY.md#Troubleshooting
+            dependency "io.netty:netty-tcnative-boringssl-static:2.0.28.Final"
+        }
+    }
 }
 
 subprojects {
-    apply plugin: "java"
-    apply plugin: "checkstyle"
+    //apply plugin: "checkstyle"
     apply plugin: "io.freefair.lombok"
-    apply plugin: "io.spring.dependency-management"
-
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    apply plugin: "com.google.protobuf"
 
     configurations {
         developmentOnly
@@ -58,26 +87,6 @@ subprojects {
         developmentOnly "org.springframework.boot:spring-boot-devtools" //支持热部署依赖
     }
 
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
-        }
-
-        dependencies {
-            dependencySet(group: "org.slf4j", version: "1.7.30") {
-                entry "slf4j-api"
-                entry "slf4j-simple"
-            }
-
-            dependency "org.flywaydb:flyway-core:5.2.4"
-
-            dependency "org.apache.commons:commons-io:1.3.2"
-            dependency "org.apache.commons:commons-lang3:3.9"
-
-            dependency "com.google.guava:guava:28.2-jre"
-        }
-    }
-
     compileJava {
         options.encoding = "UTF-8"
         options.compilerArgs << "-Xlint:unchecked"
@@ -92,16 +101,16 @@ subprojects {
         useJUnitPlatform()
     }
 
-    task checkstyle(type: Checkstyle) {
-        configFile file("${rootDir}/config/checkstyle/checkstyle.xml")
-        ignoreFailures true
-        showViolations true
-        source = fileTree("src")
-        include "**/*.java"
-        exclude "**/test/**"
-        exclude "**/build/**"
-        classpath = files()
-    }
+//    task checkstyle(type: Checkstyle) {
+//        configFile file("${rootDir}/config/checkstyle/checkstyle.xml")
+//        ignoreFailures true
+//        showViolations true
+//        source = fileTree("src")
+//        include "**/*.java"
+//        exclude "**/test/**"
+//        exclude "**/build/**"
+//        classpath = files()
+//    }
 
     task removeLombokConfig() {
         def subProjectPath = project.projectDir
@@ -109,6 +118,28 @@ subprojects {
             def lombokConfigFile = new File(subProjectPath, "lombok.config")
             if (lombokConfigFile.exists()) {
                 lombokConfigFile.delete()
+            }
+        }
+    }
+
+    protobuf {
+        protoc {
+            artifact = "com.google.protobuf:protoc:3.11.4"
+        }
+
+        plugins {
+            grpc {
+                artifact = "io.grpc:protoc-gen-grpc-java:1.28.1"
+            }
+        }
+
+        generatedFilesBaseDir = "src"
+
+        generateProtoTasks {
+            all()*.plugins {
+                grpc {
+                    setOutputSubDir "java"
+                }
             }
         }
     }
