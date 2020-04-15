@@ -1,3 +1,5 @@
 dependencies {
-    compile "io.grpc:grpc-all"
+    compile project(":grpc-proto")
+
+    compile "org.springframework.boot:spring-boot-starter"
 }

@@ -1,3 +1,4 @@
+include "grpc-proto"
 include "grpc-server"
 include "grpc-client-server"
 

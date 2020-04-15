@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_package = "com.incarcloud.grpc.proto";
+option java_outer_classname = "Position";
+
+message PositionParam {
+    string vin = 1;
+}
+
+message PositionData {
+    string vin = 1;
+    double longitude = 2;
+    double latitude = 3;
+}
+
+message PositionDataList {
+    repeated PositionData positionData = 1;
+}
+
+service PositionService {
+    rpc queryList(PositionParam) returns (PositionDataList);
+}

@@ -118,15 +118,6 @@ subprojects {
         }
     }
 
-    sourceSets {
-        main {
-            proto {
-                srcDir "src/main/grpc/protobuf"
-                include "**/*.protodevel"
-            }
-        }
-    }
-
     protobuf {
         protoc {
             artifact = "com.google.protobuf:protoc:3.11.4"
