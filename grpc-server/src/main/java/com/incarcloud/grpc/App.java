@@ -31,14 +31,16 @@ public class App implements CommandLineRunner {
         PositionService positionService = new PositionService();
         Server server = ServerBuilder.forPort(12345)
                 .addService(positionService)
-                .addService(positionService)
                 .build()
                 .start();
 
         // 关闭服务
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                server.awaitTermination();
+                if (null != server) {
+                    // 阻塞等待退出，防止数据丢死
+                    server.awaitTermination();
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
