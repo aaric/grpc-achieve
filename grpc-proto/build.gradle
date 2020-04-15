@@ -1,3 +1,4 @@
 dependencies {
+    compile "javax.annotation:javax.annotation-api"
     compile "io.grpc:grpc-all"
 }
