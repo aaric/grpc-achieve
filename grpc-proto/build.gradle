@@ -1,5 +1,5 @@
 dependencies {
-    compile "javax.annotation:javax.annotation-api"
     compile "io.grpc:grpc-all"
+    compile "javax.annotation:javax.annotation-api"
     compile "io.netty:netty-tcnative-boringssl-static"
 }

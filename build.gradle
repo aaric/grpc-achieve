@@ -54,17 +54,16 @@ allprojects {
 
             dependency "com.google.guava:guava:28.2-jre"
 
-            dependency "javax.annotation:javax.annotation-api:1.3.2"
             dependency "io.grpc:grpc-all:1.28.1"
+            dependency "javax.annotation:javax.annotation-api:1.3.2"
             // @see https://github.com/grpc/grpc-java/blob/master/SECURITY.md#Troubleshooting
-            dependency "io.netty:netty-tcnative:2.0.28.Final"
             dependency "io.netty:netty-tcnative-boringssl-static:2.0.28.Final"
         }
     }
 }
 
 subprojects {
-    apply plugin: "checkstyle"
+    //apply plugin: "checkstyle"
     apply plugin: "io.freefair.lombok"
     apply plugin: "com.google.protobuf"
 
