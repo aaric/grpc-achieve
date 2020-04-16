@@ -24,7 +24,7 @@ public class PositionService extends PositionServiceGrpc.PositionServiceImplBase
         // 根据vin查询位置数据
         Position.PositionData positionData = Position.PositionData.newBuilder()
                 .setVin(vin)
-                .setLatitude(113.906096)
+                .setLongitude(113.906096)
                 .setLatitude(22.583498)
                 .build();
         Position.PositionDataList positionDataList = Position.PositionDataList.newBuilder()
