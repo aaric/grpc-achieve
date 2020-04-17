@@ -1,3 +1,6 @@
+group "com.incarcloud"
+version "0.4.0-SNAPSHOT"
+
 buildscript {
     ext {
         lombokVersion = "4.1.6"
@@ -24,9 +27,6 @@ buildscript {
 allprojects {
     apply plugin: "java"
     apply plugin: "io.spring.dependency-management"
-
-    group "com.incarcloud"
-    version "0.3.0-SNAPSHOT"
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -64,7 +64,6 @@ allprojects {
 }
 
 subprojects {
-    //apply plugin: "checkstyle"
     apply plugin: "io.freefair.lombok"
 
     configurations {
@@ -97,20 +96,14 @@ subprojects {
         options.compilerArgs << "-Xlint:unchecked"
     }
 
+    task sourceJar(type: Jar) {
+        from sourceSets.main.java.srcDirs
+        classifier "sources"
+    }
+
     test {
         useJUnitPlatform()
     }
-
-//    task checkstyle(type: Checkstyle) {
-//        configFile file("${rootDir}/config/checkstyle/checkstyle.xml")
-//        ignoreFailures true
-//        showViolations true
-//        source = fileTree("src")
-//        include "**/*.java"
-//        exclude "**/test/**"
-//        exclude "**/build/**"
-//        classpath = files()
-//    }
 
     task removeLombokConfig() {
         def subProjectPath = project.projectDir
