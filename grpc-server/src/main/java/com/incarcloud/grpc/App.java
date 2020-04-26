@@ -42,7 +42,7 @@ public class App implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Test
         log.info("hbase init...");
-        //runHBaseEnv();
+        runHBaseEnv();
 
         // 启动服务
         log.info("starting...");

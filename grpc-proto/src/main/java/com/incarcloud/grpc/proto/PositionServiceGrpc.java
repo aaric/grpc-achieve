@@ -18,7 +18,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.20.0)",
+    value = "by gRPC proto compiler (version 1.28.1)",
     comments = "Source: Position.proto")
 public final class PositionServiceGrpc {
 
@@ -41,29 +41,35 @@ public final class PositionServiceGrpc {
     if ((getQueryListMethod = PositionServiceGrpc.getQueryListMethod) == null) {
       synchronized (PositionServiceGrpc.class) {
         if ((getQueryListMethod = PositionServiceGrpc.getQueryListMethod) == null) {
-          PositionServiceGrpc.getQueryListMethod = getQueryListMethod = 
+          PositionServiceGrpc.getQueryListMethod = getQueryListMethod =
               io.grpc.MethodDescriptor.<com.incarcloud.grpc.proto.Position.PositionParam, com.incarcloud.grpc.proto.Position.PositionDataList>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "PositionService", "queryList"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "queryList"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.incarcloud.grpc.proto.Position.PositionParam.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.incarcloud.grpc.proto.Position.PositionDataList.getDefaultInstance()))
-                  .setSchemaDescriptor(new PositionServiceMethodDescriptorSupplier("queryList"))
-                  .build();
-          }
+              .setSchemaDescriptor(new PositionServiceMethodDescriptorSupplier("queryList"))
+              .build();
         }
-     }
-     return getQueryListMethod;
+      }
+    }
+    return getQueryListMethod;
   }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static PositionServiceStub newStub(io.grpc.Channel channel) {
-    return new PositionServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<PositionServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<PositionServiceStub>() {
+        @java.lang.Override
+        public PositionServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new PositionServiceStub(channel, callOptions);
+        }
+      };
+    return PositionServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -71,7 +77,14 @@ public final class PositionServiceGrpc {
    */
   public static PositionServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new PositionServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<PositionServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<PositionServiceBlockingStub>() {
+        @java.lang.Override
+        public PositionServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new PositionServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return PositionServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
@@ -79,7 +92,14 @@ public final class PositionServiceGrpc {
    */
   public static PositionServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new PositionServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<PositionServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<PositionServiceFutureStub>() {
+        @java.lang.Override
+        public PositionServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new PositionServiceFutureStub(channel, callOptions);
+        }
+      };
+    return PositionServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -108,19 +128,15 @@ public final class PositionServiceGrpc {
 
   /**
    */
-  public static final class PositionServiceStub extends io.grpc.stub.AbstractStub<PositionServiceStub> {
-    private PositionServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private PositionServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class PositionServiceStub extends io.grpc.stub.AbstractAsyncStub<PositionServiceStub> {
+    private PositionServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PositionServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected PositionServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new PositionServiceStub(channel, callOptions);
     }
 
@@ -135,19 +151,15 @@ public final class PositionServiceGrpc {
 
   /**
    */
-  public static final class PositionServiceBlockingStub extends io.grpc.stub.AbstractStub<PositionServiceBlockingStub> {
-    private PositionServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private PositionServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class PositionServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<PositionServiceBlockingStub> {
+    private PositionServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PositionServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected PositionServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new PositionServiceBlockingStub(channel, callOptions);
     }
 
@@ -161,19 +173,15 @@ public final class PositionServiceGrpc {
 
   /**
    */
-  public static final class PositionServiceFutureStub extends io.grpc.stub.AbstractStub<PositionServiceFutureStub> {
-    private PositionServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private PositionServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class PositionServiceFutureStub extends io.grpc.stub.AbstractFutureStub<PositionServiceFutureStub> {
+    private PositionServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PositionServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected PositionServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new PositionServiceFutureStub(channel, callOptions);
     }
 
