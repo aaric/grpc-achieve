@@ -4,7 +4,7 @@ buildscript {
         junitPlatformVersion = "1.2.0"
         dependencyManagementVersion = "1.0.9.RELEASE"
         springBootVersion = "2.2.6.RELEASE"
-        protobufVersion = "0.8.12"
+        protobufVersion = "0.8.8"
     }
 
     repositories {
@@ -23,7 +23,7 @@ buildscript {
 
 allprojects {
     group "com.incarcloud"
-    version "0.3.1-SNAPSHOT"
+    version "0.3.2-SNAPSHOT"
 
     apply plugin: "java"
     apply plugin: "io.spring.dependency-management"
@@ -54,11 +54,14 @@ allprojects {
 
             dependency "com.google.guava:guava:28.2-jre"
 
-            dependency "io.grpc:grpc-all:1.28.1"
+            //dependency "io.grpc:grpc-all:1.28.1"
+            dependency "io.grpc:grpc-all:1.20.0"
             dependency "javax.annotation:javax.annotation-api:1.3.2"
             // @see https://github.com/grpc/grpc-java/blob/master/SECURITY.md#Troubleshooting
             dependency "io.netty:netty-handler:4.1.45.Final"
             dependency "io.netty:netty-tcnative-boringssl-static:2.0.28.Final"
+
+            dependency "org.apache.hbase:hbase-client:1.2.12"
         }
     }
 }
