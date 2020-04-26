@@ -20,12 +20,10 @@ public final class Position {
 
     /**
      * <code>string vin = 1;</code>
-     * @return The vin.
      */
     java.lang.String getVin();
     /**
      * <code>string vin = 1;</code>
-     * @return The bytes for vin.
      */
     com.google.protobuf.ByteString
         getVinBytes();
@@ -47,13 +45,6 @@ public final class Position {
     }
 
     @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new PositionParam();
-    }
-
-    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -66,6 +57,7 @@ public final class Position {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -118,7 +110,6 @@ public final class Position {
     private volatile java.lang.Object vin_;
     /**
      * <code>string vin = 1;</code>
-     * @return The vin.
      */
     public java.lang.String getVin() {
       java.lang.Object ref = vin_;
@@ -134,7 +125,6 @@ public final class Position {
     }
     /**
      * <code>string vin = 1;</code>
-     * @return The bytes for vin.
      */
     public com.google.protobuf.ByteString
         getVinBytes() {
@@ -455,7 +445,6 @@ public final class Position {
       private java.lang.Object vin_ = "";
       /**
        * <code>string vin = 1;</code>
-       * @return The vin.
        */
       public java.lang.String getVin() {
         java.lang.Object ref = vin_;
@@ -471,7 +460,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @return The bytes for vin.
        */
       public com.google.protobuf.ByteString
           getVinBytes() {
@@ -488,8 +476,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @param value The vin to set.
-       * @return This builder for chaining.
        */
       public Builder setVin(
           java.lang.String value) {
@@ -503,7 +489,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVin() {
         
@@ -513,8 +498,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @param value The bytes for vin to set.
-       * @return This builder for chaining.
        */
       public Builder setVinBytes(
           com.google.protobuf.ByteString value) {
@@ -586,25 +569,21 @@ public final class Position {
 
     /**
      * <code>string vin = 1;</code>
-     * @return The vin.
      */
     java.lang.String getVin();
     /**
      * <code>string vin = 1;</code>
-     * @return The bytes for vin.
      */
     com.google.protobuf.ByteString
         getVinBytes();
 
     /**
      * <code>double longitude = 2;</code>
-     * @return The longitude.
      */
     double getLongitude();
 
     /**
      * <code>double latitude = 3;</code>
-     * @return The latitude.
      */
     double getLatitude();
   }
@@ -625,13 +604,6 @@ public final class Position {
     }
 
     @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new PositionData();
-    }
-
-    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -644,6 +616,7 @@ public final class Position {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -706,7 +679,6 @@ public final class Position {
     private volatile java.lang.Object vin_;
     /**
      * <code>string vin = 1;</code>
-     * @return The vin.
      */
     public java.lang.String getVin() {
       java.lang.Object ref = vin_;
@@ -722,7 +694,6 @@ public final class Position {
     }
     /**
      * <code>string vin = 1;</code>
-     * @return The bytes for vin.
      */
     public com.google.protobuf.ByteString
         getVinBytes() {
@@ -742,7 +713,6 @@ public final class Position {
     private double longitude_;
     /**
      * <code>double longitude = 2;</code>
-     * @return The longitude.
      */
     public double getLongitude() {
       return longitude_;
@@ -752,7 +722,6 @@ public final class Position {
     private double latitude_;
     /**
      * <code>double latitude = 3;</code>
-     * @return The latitude.
      */
     public double getLatitude() {
       return latitude_;
@@ -1101,7 +1070,6 @@ public final class Position {
       private java.lang.Object vin_ = "";
       /**
        * <code>string vin = 1;</code>
-       * @return The vin.
        */
       public java.lang.String getVin() {
         java.lang.Object ref = vin_;
@@ -1117,7 +1085,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @return The bytes for vin.
        */
       public com.google.protobuf.ByteString
           getVinBytes() {
@@ -1134,8 +1101,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @param value The vin to set.
-       * @return This builder for chaining.
        */
       public Builder setVin(
           java.lang.String value) {
@@ -1149,7 +1114,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @return This builder for chaining.
        */
       public Builder clearVin() {
         
@@ -1159,8 +1123,6 @@ public final class Position {
       }
       /**
        * <code>string vin = 1;</code>
-       * @param value The bytes for vin to set.
-       * @return This builder for chaining.
        */
       public Builder setVinBytes(
           com.google.protobuf.ByteString value) {
@@ -1177,15 +1139,12 @@ public final class Position {
       private double longitude_ ;
       /**
        * <code>double longitude = 2;</code>
-       * @return The longitude.
        */
       public double getLongitude() {
         return longitude_;
       }
       /**
        * <code>double longitude = 2;</code>
-       * @param value The longitude to set.
-       * @return This builder for chaining.
        */
       public Builder setLongitude(double value) {
         
@@ -1195,7 +1154,6 @@ public final class Position {
       }
       /**
        * <code>double longitude = 2;</code>
-       * @return This builder for chaining.
        */
       public Builder clearLongitude() {
         
@@ -1207,15 +1165,12 @@ public final class Position {
       private double latitude_ ;
       /**
        * <code>double latitude = 3;</code>
-       * @return The latitude.
        */
       public double getLatitude() {
         return latitude_;
       }
       /**
        * <code>double latitude = 3;</code>
-       * @param value The latitude to set.
-       * @return This builder for chaining.
        */
       public Builder setLatitude(double value) {
         
@@ -1225,7 +1180,6 @@ public final class Position {
       }
       /**
        * <code>double latitude = 3;</code>
-       * @return This builder for chaining.
        */
       public Builder clearLatitude() {
         
@@ -1328,13 +1282,6 @@ public final class Position {
     }
     private PositionDataList() {
       positionData_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new PositionDataList();
     }
 
     @java.lang.Override
@@ -2107,10 +2054,18 @@ public final class Position {
       "com.incarcloud.grpc.protoB\010Positionb\006pro" +
       "to3"
     };
-    descriptor = com.google.protobuf.Descriptors.FileDescriptor
+    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
+    com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        });
+        }, assigner);
     internal_static_PositionParam_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_PositionParam_fieldAccessorTable = new

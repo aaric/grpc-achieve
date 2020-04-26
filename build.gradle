@@ -62,6 +62,7 @@ allprojects {
             dependency "io.netty:netty-tcnative-boringssl-static:2.0.28.Final"
 
             dependency "org.apache.hbase:hbase-client:1.2.12"
+            dependency "org.apache.hbase:hbase-shaded-client:1.2.12"
         }
     }
 }

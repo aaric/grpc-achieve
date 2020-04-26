@@ -3,7 +3,8 @@ apply plugin: "org.springframework.boot"
 dependencies {
     compile project(":grpc-proto")
 
-    compile "org.apache.hbase:hbase-client"
+    //compile "org.apache.hbase:hbase-client"
+    compile "org.apache.hbase:hbase-shaded-client"
 
     compile ("org.springframework.boot:spring-boot-starter") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
