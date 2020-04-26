@@ -70,9 +70,9 @@ public class App implements CommandLineRunner {
      */
     private void runHBaseEnv() {
         Configuration configuration = HBaseConfiguration.create();
-        configuration.set("hbase.zookeeper.quorum", "10.0.11.34,10.0.11.35,10.0.11.39");
+        configuration.set("hbase.zookeeper.quorum", "127.0.0.1");
         configuration.set("hbase.zookeeper.property.clientPort", "2181");
-        configuration.set("hbase.master", "10.0.11.35:60000");
+        configuration.set("hbase.master", "127.0.0.1:60000");
 
         String rowKey = "key_" + Instant.now().toEpochMilli();
         try {
