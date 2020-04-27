@@ -119,5 +119,15 @@ subprojects {
         }
     }
 
+    task removeOutputLog() {
+        def subProjectPath = project.projectDir
+        if (null != subProjectPath) {
+            def lombokConfigFile = new File(subProjectPath, "output.log")
+            if (lombokConfigFile.exists()) {
+                lombokConfigFile.delete()
+            }
+        }
+    }
+
     defaultTasks "assemble"
 }
