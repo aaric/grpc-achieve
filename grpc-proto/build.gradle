@@ -18,7 +18,7 @@ protobuf {
         }
     }
 
-    generatedFilesBaseDir = "src"
+    generatedFilesBaseDir = "${projectDir}/src"
 
     generateProtoTasks {
         all()*.plugins {
