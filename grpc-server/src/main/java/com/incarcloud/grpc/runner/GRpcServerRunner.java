@@ -39,6 +39,6 @@ public class GRpcServerRunner implements CommandLineRunner {
 
         // 等待终止...
         log.info("started.");
-        server.awaitTermination();
+        //server.awaitTermination();
     }
 }
