@@ -58,7 +58,7 @@ public class HBaseTests {
         String mockOrigin = "7e0200002801816800000200240000008000000082015898ca06ca11b000000012000018041711421801040000000630010f31010bd47e";
         Table table = hbaseConnection.getTable(TableName.valueOf(hbaseTableTest));
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 9000; i++) {
             String rowKey = MessageFormat.format("1e11000LFV2A21J970002020JTT808POSITION#20180417114218####{0,number,0000}", i + 1);
             Put put = new Put(rowKey.getBytes());
             put.addColumn(Bytes.toBytes("base"), Bytes.toBytes("data"), Bytes.toBytes(mockData));
