@@ -1,5 +1,5 @@
 rootProject.name = "grpc-achieve"
 
 include "grpc-proto"
-include "grpc-server"
-include "grpc-client-server"
+include "grpc-client"
+include "grpc-hbase-server"

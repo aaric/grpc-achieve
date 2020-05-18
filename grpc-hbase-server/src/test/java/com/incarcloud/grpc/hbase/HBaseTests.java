@@ -60,7 +60,7 @@ public class HBaseTests {
 
         for (int i = 0; i < 9000; i++) {
             String rowKey = MessageFormat.format("1e11000LFV2A21J970002020JTT808POSITION#20180417114218####{0,number,0000}", i + 1);
-            Put put = new Put(rowKey.getBytes());
+            Put put = new Put(Bytes.toBytes(rowKey));
             put.addColumn(Bytes.toBytes("base"), Bytes.toBytes("data"), Bytes.toBytes(mockData));
             put.addColumn(Bytes.toBytes("base"), Bytes.toBytes("origin"), Bytes.toBytes(mockOrigin));
             table.put(put);
