@@ -24,15 +24,11 @@ public class HBaseConfig {
     @Value("${incarcloud.hbase.zookeeper.property.clientPort}")
     private String zookeeperClientPort;
 
-    @Value("${incarcloud.hbase.master}")
-    private String hbaseMaster;
-
     @Bean
     public Connection hbaseConnection() throws IOException {
         org.apache.hadoop.conf.Configuration configuration = HBaseConfiguration.create();
         configuration.set("hbase.zookeeper.quorum", zookeeperQuorum);
         configuration.set("hbase.zookeeper.property.clientPort", zookeeperClientPort);
-        configuration.set("hbase.master", hbaseMaster);
 
         return ConnectionFactory.createConnection(configuration);
     }
