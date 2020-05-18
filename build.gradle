@@ -23,18 +23,21 @@ buildscript {
 
 allprojects {
     group "com.incarcloud"
-    version "0.4.2-SNAPSHOT"
-
-    apply plugin: "java"
-    apply plugin: "io.spring.dependency-management"
-
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    version "0.4.3-SNAPSHOT"
 
     repositories {
         maven { url "https://maven.aliyun.com/repository/public" }
         maven { url "https://repository.incarcloud.com/content/groups/public" }
     }
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "io.freefair.lombok"
+    apply plugin: "io.spring.dependency-management"
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     configurations {
         developmentOnly
@@ -46,6 +49,19 @@ allprojects {
         }
     }
 
+    dependencies {
+        compile "org.slf4j:slf4j-api"
+
+        testCompile "org.junit.jupiter:junit-jupiter-api"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+        testCompile("org.springframework.boot:spring-boot-starter-test") {
+            exclude group: "junit", module: "junit"
+            exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+        }
+
+        developmentOnly "org.springframework.boot:spring-boot-devtools" //支持热部署依赖
+    }
+
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
@@ -54,6 +70,7 @@ allprojects {
         dependencies {
             dependencySet(group: "org.slf4j", version: "1.7.30") {
                 entry "slf4j-api"
+                entry "slf4j-simple"
                 entry "slf4j-log4j12"
             }
 
@@ -74,23 +91,6 @@ allprojects {
             dependency "org.apache.hbase:hbase-client:1.2.12"
             dependency "org.apache.hbase:hbase-shaded-client:1.2.12"
         }
-    }
-}
-
-subprojects {
-    apply plugin: "io.freefair.lombok"
-
-    dependencies {
-        compile "org.slf4j:slf4j-api"
-
-        testCompile "org.junit.jupiter:junit-jupiter-api"
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-        testCompile("org.springframework.boot:spring-boot-starter-test") {
-            exclude group: "junit", module: "junit"
-            exclude group: "org.junit.vintage", module: "junit-vintage-engine"
-        }
-
-        developmentOnly "org.springframework.boot:spring-boot-devtools" //支持热部署依赖
     }
 
     compileJava {
