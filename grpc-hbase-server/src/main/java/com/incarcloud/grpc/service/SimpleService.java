@@ -3,6 +3,7 @@ package com.incarcloud.grpc.service;
 import com.incarcloud.grpc.proto.Simple;
 import com.incarcloud.grpc.proto.SimpleServiceGrpc;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
  * @author Aaric, created on 2020-04-15T15:37.
  * @version 0.2.0-SNAPSHOT
  */
+@Log4j2
 @Service
 public class SimpleService extends SimpleServiceGrpc.SimpleServiceImplBase {
 
@@ -19,21 +21,22 @@ public class SimpleService extends SimpleServiceGrpc.SimpleServiceImplBase {
      */
     @Override
     public void queryList(Simple.SimpleParam request, StreamObserver<Simple.SimpleDataList> responseObserver) {
-        // 获取vin字符串
+        // 获取请求参数
         String vin = request.getVin();
-        System.out.println("vin: " + vin);
+        log.debug("vin: " + vin);
 
-        // 根据vin查询位置数据
-        Simple.SimpleData positionData = Simple.SimpleData.newBuilder()
-                .setLongitude(113.906096)
-                .setLatitude(22.583498)
-                .build();
-        Simple.SimpleDataList positionDataList = Simple.SimpleDataList.newBuilder()
-                .addSimpleData(positionData)
+        // 构建请求数据
+        Simple.SimpleDataList data = Simple.SimpleDataList.newBuilder()
+                .addSimpleData(Simple.SimpleData.newBuilder()
+                        .setLongitude(0.0)
+                        .setLatitude(0.0)
+                        .build())
                 .build();
 
-        // 向客户端返回结果，结束本次请求
-        responseObserver.onNext(positionDataList);
+        // 返回结果
+        responseObserver.onNext(data);
+
+        // 结束本次请求
         responseObserver.onCompleted();
     }
 }
