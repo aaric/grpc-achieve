@@ -8,10 +8,11 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,7 +26,7 @@ public class GRpcClientTests {
 
     @Test
     @Disabled
-    public void testSimple() {
+    public void testSimple() throws InterruptedException {
         // 创建通道和存根
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
                 .usePlaintext()
@@ -33,14 +34,13 @@ public class GRpcClientTests {
         SimpleServiceGrpc.SimpleServiceBlockingStub stub = SimpleServiceGrpc.newBlockingStub(channel);
 
         // 查询数据
-        Simple.SimpleParam param = Simple.SimpleParam.newBuilder()
+        Simple.SimpleParam request = Simple.SimpleParam.newBuilder()
                 .setVin("LFV2A21J880002020")
                 .build();
-        Simple.SimpleDataList data = stub.queryList(param);
+        Simple.SimpleDataList response = stub.queryList(request);
 
         // 打印结果
-        log.info(data.getSimpleData(0).toString());
-        Assertions.assertNotEquals(0, data.getSimpleDataCount());
+        log.info(response.getSimpleData(0).toString());
     }
 
     @Test
@@ -52,10 +52,10 @@ public class GRpcClientTests {
         StreamServiceGrpc.StreamServiceStub stub = StreamServiceGrpc.newStub(channel);
 
         // 服务端流模式
-        Stream.StreamParam param = Stream.StreamParam.newBuilder()
+        Stream.StreamParam request = Stream.StreamParam.newBuilder()
                 .setVin("LFV2A21J880002020")
                 .build();
-        stub.queryServerStream(param, new StreamObserver<Stream.StreamData>() {
+        stub.queryServerStream(request, new StreamObserver<Stream.StreamData>() {
 
             @Override
             public void onNext(Stream.StreamData value) {
@@ -78,7 +78,29 @@ public class GRpcClientTests {
     }
 
     @Test
+    public void testQueryServerStream2() throws InterruptedException {
+        // 创建通道和存根
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
+                .usePlaintext()
+                .build();
+        StreamServiceGrpc.StreamServiceBlockingStub stub = StreamServiceGrpc.newBlockingStub(channel);
+
+        // 服务端流模式
+        Stream.StreamParam request = Stream.StreamParam.newBuilder()
+                .setVin("LFV2A21J880002020")
+                .build();
+        Iterator<Stream.StreamData> response = stub.queryServerStream(request);
+        for (int i = 1; response.hasNext(); i++) {
+            Stream.StreamData value = response.next();
+            log.info("longitude: {}, latitude: {}", value.getLongitude(), value.getLatitude());
+        }
+    }
+
+    @Test
     public void testQueryClientStream() throws InterruptedException {
+        // 倒计时
+        final CountDownLatch latch = new CountDownLatch(1);
+
         // 创建通道和存根
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
                 .usePlaintext()
@@ -90,7 +112,11 @@ public class GRpcClientTests {
 
             @Override
             public void onNext(Stream.StreamData value) {
+                // 打印结果
                 log.info("longitude: {}, latitude: {}", value.getLongitude(), value.getLatitude());
+
+                // 结束倒计时
+                latch.countDown();
             }
 
             @Override
@@ -105,24 +131,29 @@ public class GRpcClientTests {
         });
 
         // 构建请求参数
-        Stream.StreamParam param = Stream.StreamParam.newBuilder()
+        Stream.StreamParam request = Stream.StreamParam.newBuilder()
                 .setVin("LFV2A21J880002020")
                 .build();
 
-        // 发起请求-第1次
-        observer.onNext(param);
-        // 发起请求-第2次
-        observer.onNext(param);
+        // 发起请求
+        for (int i = 0; i < 5; i++) {
+            observer.onNext(request);
+        }
 
         // 结束本次请求
         observer.onCompleted();
 
-        // waiting 10s for result
-        TimeUnit.SECONDS.sleep(10L);
+        // waiting for result
+        if (!latch.await(5, TimeUnit.SECONDS)) {
+            log.info("end");
+        }
     }
 
     @Test
     public void testQueryAllStream() throws InterruptedException {
+        // 倒计时
+        final CountDownLatch latch = new CountDownLatch(1);
+
         // 创建通道和存根
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
                 .usePlaintext()
@@ -145,23 +176,28 @@ public class GRpcClientTests {
             @Override
             public void onCompleted() {
                 log.info("completed");
+
+                // 结束倒计时
+                latch.countDown();
             }
         });
 
         // 构建请求参数
-        Stream.StreamParam param = Stream.StreamParam.newBuilder()
+        Stream.StreamParam request = Stream.StreamParam.newBuilder()
                 .setVin("LFV2A21J880002020")
                 .build();
 
-        // 发起请求-第1次
-        observer.onNext(param);
-        // 发起请求-第2次
-        observer.onNext(param);
+        // 发起请求
+        for (int i = 0; i < 5; i++) {
+            observer.onNext(request);
+        }
 
         // 结束本次请求
         observer.onCompleted();
 
-        // waiting 10s for result
-        TimeUnit.SECONDS.sleep(10L);
+        // waiting for result
+        if (!latch.await(5, TimeUnit.SECONDS)) {
+            log.info("end");
+        }
     }
 }
