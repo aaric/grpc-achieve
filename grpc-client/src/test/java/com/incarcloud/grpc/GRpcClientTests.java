@@ -1,7 +1,7 @@
 package com.incarcloud.grpc;
 
-import com.incarcloud.grpc.proto.Position;
-import com.incarcloud.grpc.proto.PositionServiceGrpc;
+import com.incarcloud.grpc.proto.Simple;
+import com.incarcloud.grpc.proto.SimpleServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +25,16 @@ public class GRpcClientTests {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
                 .usePlaintext()
                 .build();
-        PositionServiceGrpc.PositionServiceBlockingStub stub = PositionServiceGrpc.newBlockingStub(channel);
+        SimpleServiceGrpc.SimpleServiceBlockingStub stub = SimpleServiceGrpc.newBlockingStub(channel);
 
         // 查询数据
-        Position.PositionParam positionParam = Position.PositionParam.newBuilder()
-                .setVin("LFV2A21J970002020")
+        Simple.SimpleParam positionParam = Simple.SimpleParam.newBuilder()
+                .setVin("LFV2A21J880002020")
                 .build();
-        Position.PositionDataList positionDataList = stub.queryList(positionParam);
+        Simple.SimpleDataList positionDataList = stub.queryList(positionParam);
 
         // 打印结果
-        log.info(positionDataList.getPositionData(0).toString());
-        Assertions.assertNotEquals(0, positionDataList.getPositionDataCount());
+        log.info(positionDataList.getSimpleData(0).toString());
+        Assertions.assertNotEquals(0, positionDataList.getSimpleDataCount());
     }
 }

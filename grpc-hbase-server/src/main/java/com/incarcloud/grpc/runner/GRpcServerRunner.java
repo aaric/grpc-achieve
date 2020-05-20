@@ -1,9 +1,10 @@
 package com.incarcloud.grpc.runner;
 
-import com.incarcloud.grpc.service.PositionService;
+import com.incarcloud.grpc.service.SimpleService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -19,12 +20,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class GRpcServerRunner implements CommandLineRunner {
 
+    @Autowired
+    private SimpleService simpleService;
+
     @Override
     public void run(String... args) throws Exception {
         // 启动服务
         log.info("starting...");
         Server server = ServerBuilder.forPort(12345)
-                .addService(new PositionService())
+                .addService(simpleService)
                 .build()
                 .start();
 

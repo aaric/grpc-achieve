@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package stream;
+
+option java_package = "com.incarcloud.grpc.proto";
+option java_outer_classname = "Stream";
+
+message StreamParam {
+    string vin = 1;
+}
+
+message StreamData {
+    double longitude = 1;
+    double latitude = 2;
+}
+
+service StreamService {
+    // 服务端流模式
+    rpc queryServerStream (StreamParam) returns (stream StreamData);
+    // 客户端流模式
+    rpc queryClientStream (stream StreamParam) returns (StreamData);
+    // 双流模式
+    rpc queryAllStream (stream StreamParam) returns (stream StreamData);
+}

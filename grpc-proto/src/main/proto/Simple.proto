@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package simple;
+
+option java_package = "com.incarcloud.grpc.proto";
+option java_outer_classname = "Simple";
+
+message SimpleParam {
+    string vin = 1;
+}
+
+message SimpleData {
+    double longitude = 1;
+    double latitude = 2;
+}
+
+message SimpleDataList {
+    repeated SimpleData simpleData = 1;
+}
+
+service SimpleService {
+    rpc queryList (SimpleParam) returns (SimpleDataList);
+}

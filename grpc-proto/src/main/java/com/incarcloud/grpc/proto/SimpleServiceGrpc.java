@@ -19,38 +19,38 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.28.1)",
-    comments = "Source: Position.proto")
-public final class PositionServiceGrpc {
+    comments = "Source: Simple.proto")
+public final class SimpleServiceGrpc {
 
-  private PositionServiceGrpc() {}
+  private SimpleServiceGrpc() {}
 
-  public static final String SERVICE_NAME = "PositionService";
+  public static final String SERVICE_NAME = "simple.SimpleService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Position.PositionParam,
-      com.incarcloud.grpc.proto.Position.PositionDataList> getQueryListMethod;
+  private static volatile io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Simple.SimpleParam,
+      com.incarcloud.grpc.proto.Simple.SimpleDataList> getQueryListMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "queryList",
-      requestType = com.incarcloud.grpc.proto.Position.PositionParam.class,
-      responseType = com.incarcloud.grpc.proto.Position.PositionDataList.class,
+      requestType = com.incarcloud.grpc.proto.Simple.SimpleParam.class,
+      responseType = com.incarcloud.grpc.proto.Simple.SimpleDataList.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Position.PositionParam,
-      com.incarcloud.grpc.proto.Position.PositionDataList> getQueryListMethod() {
-    io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Position.PositionParam, com.incarcloud.grpc.proto.Position.PositionDataList> getQueryListMethod;
-    if ((getQueryListMethod = PositionServiceGrpc.getQueryListMethod) == null) {
-      synchronized (PositionServiceGrpc.class) {
-        if ((getQueryListMethod = PositionServiceGrpc.getQueryListMethod) == null) {
-          PositionServiceGrpc.getQueryListMethod = getQueryListMethod =
-              io.grpc.MethodDescriptor.<com.incarcloud.grpc.proto.Position.PositionParam, com.incarcloud.grpc.proto.Position.PositionDataList>newBuilder()
+  public static io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Simple.SimpleParam,
+      com.incarcloud.grpc.proto.Simple.SimpleDataList> getQueryListMethod() {
+    io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Simple.SimpleParam, com.incarcloud.grpc.proto.Simple.SimpleDataList> getQueryListMethod;
+    if ((getQueryListMethod = SimpleServiceGrpc.getQueryListMethod) == null) {
+      synchronized (SimpleServiceGrpc.class) {
+        if ((getQueryListMethod = SimpleServiceGrpc.getQueryListMethod) == null) {
+          SimpleServiceGrpc.getQueryListMethod = getQueryListMethod =
+              io.grpc.MethodDescriptor.<com.incarcloud.grpc.proto.Simple.SimpleParam, com.incarcloud.grpc.proto.Simple.SimpleDataList>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "queryList"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.incarcloud.grpc.proto.Position.PositionParam.getDefaultInstance()))
+                  com.incarcloud.grpc.proto.Simple.SimpleParam.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.incarcloud.grpc.proto.Position.PositionDataList.getDefaultInstance()))
-              .setSchemaDescriptor(new PositionServiceMethodDescriptorSupplier("queryList"))
+                  com.incarcloud.grpc.proto.Simple.SimpleDataList.getDefaultInstance()))
+              .setSchemaDescriptor(new SimpleServiceMethodDescriptorSupplier("queryList"))
               .build();
         }
       }
@@ -61,55 +61,55 @@ public final class PositionServiceGrpc {
   /**
    * Creates a new async stub that supports all call types for the service
    */
-  public static PositionServiceStub newStub(io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<PositionServiceStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PositionServiceStub>() {
+  public static SimpleServiceStub newStub(io.grpc.Channel channel) {
+    io.grpc.stub.AbstractStub.StubFactory<SimpleServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<SimpleServiceStub>() {
         @java.lang.Override
-        public PositionServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PositionServiceStub(channel, callOptions);
+        public SimpleServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new SimpleServiceStub(channel, callOptions);
         }
       };
-    return PositionServiceStub.newStub(factory, channel);
+    return SimpleServiceStub.newStub(factory, channel);
   }
 
   /**
    * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
-  public static PositionServiceBlockingStub newBlockingStub(
+  public static SimpleServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<PositionServiceBlockingStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PositionServiceBlockingStub>() {
+    io.grpc.stub.AbstractStub.StubFactory<SimpleServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<SimpleServiceBlockingStub>() {
         @java.lang.Override
-        public PositionServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PositionServiceBlockingStub(channel, callOptions);
+        public SimpleServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new SimpleServiceBlockingStub(channel, callOptions);
         }
       };
-    return PositionServiceBlockingStub.newStub(factory, channel);
+    return SimpleServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
    * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
-  public static PositionServiceFutureStub newFutureStub(
+  public static SimpleServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    io.grpc.stub.AbstractStub.StubFactory<PositionServiceFutureStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PositionServiceFutureStub>() {
+    io.grpc.stub.AbstractStub.StubFactory<SimpleServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<SimpleServiceFutureStub>() {
         @java.lang.Override
-        public PositionServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PositionServiceFutureStub(channel, callOptions);
+        public SimpleServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new SimpleServiceFutureStub(channel, callOptions);
         }
       };
-    return PositionServiceFutureStub.newStub(factory, channel);
+    return SimpleServiceFutureStub.newStub(factory, channel);
   }
 
   /**
    */
-  public static abstract class PositionServiceImplBase implements io.grpc.BindableService {
+  public static abstract class SimpleServiceImplBase implements io.grpc.BindableService {
 
     /**
      */
-    public void queryList(com.incarcloud.grpc.proto.Position.PositionParam request,
-        io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Position.PositionDataList> responseObserver) {
+    public void queryList(com.incarcloud.grpc.proto.Simple.SimpleParam request,
+        io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Simple.SimpleDataList> responseObserver) {
       asyncUnimplementedUnaryCall(getQueryListMethod(), responseObserver);
     }
 
@@ -119,8 +119,8 @@ public final class PositionServiceGrpc {
             getQueryListMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.incarcloud.grpc.proto.Position.PositionParam,
-                com.incarcloud.grpc.proto.Position.PositionDataList>(
+                com.incarcloud.grpc.proto.Simple.SimpleParam,
+                com.incarcloud.grpc.proto.Simple.SimpleDataList>(
                   this, METHODID_QUERY_LIST)))
           .build();
     }
@@ -128,22 +128,22 @@ public final class PositionServiceGrpc {
 
   /**
    */
-  public static final class PositionServiceStub extends io.grpc.stub.AbstractAsyncStub<PositionServiceStub> {
-    private PositionServiceStub(
+  public static final class SimpleServiceStub extends io.grpc.stub.AbstractAsyncStub<SimpleServiceStub> {
+    private SimpleServiceStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PositionServiceStub build(
+    protected SimpleServiceStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-      return new PositionServiceStub(channel, callOptions);
+      return new SimpleServiceStub(channel, callOptions);
     }
 
     /**
      */
-    public void queryList(com.incarcloud.grpc.proto.Position.PositionParam request,
-        io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Position.PositionDataList> responseObserver) {
+    public void queryList(com.incarcloud.grpc.proto.Simple.SimpleParam request,
+        io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Simple.SimpleDataList> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getQueryListMethod(), getCallOptions()), request, responseObserver);
     }
@@ -151,21 +151,21 @@ public final class PositionServiceGrpc {
 
   /**
    */
-  public static final class PositionServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<PositionServiceBlockingStub> {
-    private PositionServiceBlockingStub(
+  public static final class SimpleServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<SimpleServiceBlockingStub> {
+    private SimpleServiceBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PositionServiceBlockingStub build(
+    protected SimpleServiceBlockingStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-      return new PositionServiceBlockingStub(channel, callOptions);
+      return new SimpleServiceBlockingStub(channel, callOptions);
     }
 
     /**
      */
-    public com.incarcloud.grpc.proto.Position.PositionDataList queryList(com.incarcloud.grpc.proto.Position.PositionParam request) {
+    public com.incarcloud.grpc.proto.Simple.SimpleDataList queryList(com.incarcloud.grpc.proto.Simple.SimpleParam request) {
       return blockingUnaryCall(
           getChannel(), getQueryListMethod(), getCallOptions(), request);
     }
@@ -173,22 +173,22 @@ public final class PositionServiceGrpc {
 
   /**
    */
-  public static final class PositionServiceFutureStub extends io.grpc.stub.AbstractFutureStub<PositionServiceFutureStub> {
-    private PositionServiceFutureStub(
+  public static final class SimpleServiceFutureStub extends io.grpc.stub.AbstractFutureStub<SimpleServiceFutureStub> {
+    private SimpleServiceFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PositionServiceFutureStub build(
+    protected SimpleServiceFutureStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-      return new PositionServiceFutureStub(channel, callOptions);
+      return new SimpleServiceFutureStub(channel, callOptions);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.incarcloud.grpc.proto.Position.PositionDataList> queryList(
-        com.incarcloud.grpc.proto.Position.PositionParam request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.incarcloud.grpc.proto.Simple.SimpleDataList> queryList(
+        com.incarcloud.grpc.proto.Simple.SimpleParam request) {
       return futureUnaryCall(
           getChannel().newCall(getQueryListMethod(), getCallOptions()), request);
     }
@@ -201,10 +201,10 @@ public final class PositionServiceGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final PositionServiceImplBase serviceImpl;
+    private final SimpleServiceImplBase serviceImpl;
     private final int methodId;
 
-    MethodHandlers(PositionServiceImplBase serviceImpl, int methodId) {
+    MethodHandlers(SimpleServiceImplBase serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -214,8 +214,8 @@ public final class PositionServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_QUERY_LIST:
-          serviceImpl.queryList((com.incarcloud.grpc.proto.Position.PositionParam) request,
-              (io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Position.PositionDataList>) responseObserver);
+          serviceImpl.queryList((com.incarcloud.grpc.proto.Simple.SimpleParam) request,
+              (io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Simple.SimpleDataList>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -233,32 +233,32 @@ public final class PositionServiceGrpc {
     }
   }
 
-  private static abstract class PositionServiceBaseDescriptorSupplier
+  private static abstract class SimpleServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
-    PositionServiceBaseDescriptorSupplier() {}
+    SimpleServiceBaseDescriptorSupplier() {}
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return com.incarcloud.grpc.proto.Position.getDescriptor();
+      return com.incarcloud.grpc.proto.Simple.getDescriptor();
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
-      return getFileDescriptor().findServiceByName("PositionService");
+      return getFileDescriptor().findServiceByName("SimpleService");
     }
   }
 
-  private static final class PositionServiceFileDescriptorSupplier
-      extends PositionServiceBaseDescriptorSupplier {
-    PositionServiceFileDescriptorSupplier() {}
+  private static final class SimpleServiceFileDescriptorSupplier
+      extends SimpleServiceBaseDescriptorSupplier {
+    SimpleServiceFileDescriptorSupplier() {}
   }
 
-  private static final class PositionServiceMethodDescriptorSupplier
-      extends PositionServiceBaseDescriptorSupplier
+  private static final class SimpleServiceMethodDescriptorSupplier
+      extends SimpleServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
     private final String methodName;
 
-    PositionServiceMethodDescriptorSupplier(String methodName) {
+    SimpleServiceMethodDescriptorSupplier(String methodName) {
       this.methodName = methodName;
     }
 
@@ -273,11 +273,11 @@ public final class PositionServiceGrpc {
   public static io.grpc.ServiceDescriptor getServiceDescriptor() {
     io.grpc.ServiceDescriptor result = serviceDescriptor;
     if (result == null) {
-      synchronized (PositionServiceGrpc.class) {
+      synchronized (SimpleServiceGrpc.class) {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new PositionServiceFileDescriptorSupplier())
+              .setSchemaDescriptor(new SimpleServiceFileDescriptorSupplier())
               .addMethod(getQueryListMethod())
               .build();
         }
