@@ -78,7 +78,7 @@ public class GRpcClientTests {
     }
 
     @Test
-    public void testQueryServerStream2() throws InterruptedException {
+    public void testQueryServerStreamWithBlockingStub() throws InterruptedException {
         // 创建通道和存根
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
                 .usePlaintext()
