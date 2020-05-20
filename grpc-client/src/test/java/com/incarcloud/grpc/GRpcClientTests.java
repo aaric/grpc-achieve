@@ -20,7 +20,7 @@ public class GRpcClientTests {
 
     @Test
     @Disabled
-    public void testClient() {
+    public void testSimple() {
         // 创建通道和存根
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
                 .usePlaintext()
