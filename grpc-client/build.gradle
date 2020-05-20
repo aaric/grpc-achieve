@@ -1,6 +1,10 @@
 dependencies {
     compile project(":grpc-proto")
 
+    compile "org.apache.commons:commons-collections4"
+
     compile "com.incarcloud:zs-grpc-register-support"
     compile "com.incarcloud:zs-grpc-pvo-support"
+
+    testCompile "org.slf4j:slf4j-simple"
 }
