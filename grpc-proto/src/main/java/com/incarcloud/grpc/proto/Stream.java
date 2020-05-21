@@ -1159,13 +1159,13 @@ public final class Stream {
     java.lang.String[] descriptorData = {
       "\n\014Stream.proto\022\006stream\"\032\n\013StreamParam\022\013\n" +
       "\003vin\030\001 \001(\t\"1\n\nStreamData\022\021\n\tlongitude\030\001 " +
-      "\001(\001\022\020\n\010latitude\030\002 \001(\0012\316\001\n\rStreamService\022" +
+      "\001(\001\022\020\n\010latitude\030\002 \001(\0012\317\001\n\rStreamService\022" +
       ">\n\021queryServerStream\022\023.stream.StreamPara" +
       "m\032\022.stream.StreamData0\001\022>\n\021queryClientSt" +
       "ream\022\023.stream.StreamParam\032\022.stream.Strea" +
-      "mData(\001\022=\n\016queryAllStream\022\023.stream.Strea" +
-      "mParam\032\022.stream.StreamData(\0010\001B#\n\031com.in" +
-      "carcloud.grpc.protoB\006Streamb\006proto3"
+      "mData(\001\022>\n\017queryDualStream\022\023.stream.Stre" +
+      "amParam\032\022.stream.StreamData(\0010\001B#\n\031com.i" +
+      "ncarcloud.grpc.protoB\006Streamb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

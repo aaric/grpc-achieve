@@ -55,7 +55,7 @@ public class GRpcRegisterPvoTests {
         final CountDownLatch latch = new CountDownLatch(1);
 
         // 创建通道和存根
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
                 .build();
         Jt808DataServiceGrpc.Jt808DataServiceStub stub = Jt808DataServiceGrpc.newStub(channel);

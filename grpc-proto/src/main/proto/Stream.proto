@@ -20,5 +20,5 @@ service StreamService {
     // 客户端流模式
     rpc queryClientStream (stream StreamParam) returns (StreamData);
     // 双流模式
-    rpc queryAllStream (stream StreamParam) returns (stream StreamData);
+    rpc queryDualStream (stream StreamParam) returns (stream StreamData);
 }

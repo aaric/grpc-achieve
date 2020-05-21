@@ -79,7 +79,7 @@ public class StreamService extends StreamServiceGrpc.StreamServiceImplBase {
     }
 
     @Override
-    public StreamObserver<Stream.StreamParam> queryAllStream(StreamObserver<Stream.StreamData> responseObserver) {
+    public StreamObserver<Stream.StreamParam> queryDualStream(StreamObserver<Stream.StreamData> responseObserver) {
 
         return new StreamObserver<Stream.StreamParam>() {
 
