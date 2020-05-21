@@ -27,6 +27,8 @@ hbase> create 'test', \
 
 ## `gRPC`与`HBase`客户端冲突分析
 
+> [`org.apache.hbase:hbase-shaded-client:1.2.0`](https://mvnrepository.com/artifact/org.apache.hbase/hbase-shaded-client)
+
 ```text
 # io.grpc:grpc-all:1.28.1
   -> com.google.guava:guava:28.1-android  //最低版本：26.0-android
