@@ -27,7 +27,7 @@ hbase> create 'test', \
 
 ## `gRPC`与`HBase`客户端冲突分析
 
-> [`org.apache.hbase:hbase-shaded-client:1.2.0`](https://mvnrepository.com/artifact/org.apache.hbase/hbase-shaded-client)
+> [`compile "org.apache.hbase:hbase-shaded-client:1.2.0"`](https://mvnrepository.com/artifact/org.apache.hbase/hbase-shaded-client)
 
 ```text
 # io.grpc:grpc-all:1.28.1
