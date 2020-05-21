@@ -114,9 +114,6 @@ public class GRpcClientTests {
             public void onNext(Stream.StreamData value) {
                 // 打印结果
                 log.info("longitude: {}, latitude: {}", value.getLongitude(), value.getLatitude());
-
-                // 结束倒计时
-                latch.countDown();
             }
 
             @Override
@@ -127,6 +124,9 @@ public class GRpcClientTests {
             @Override
             public void onCompleted() {
                 log.info("completed");
+
+                // 结束倒计时
+                latch.countDown();
             }
         });
 

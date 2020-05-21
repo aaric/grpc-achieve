@@ -58,7 +58,7 @@ public class StreamService extends StreamServiceGrpc.StreamServiceImplBase {
 
             @Override
             public void onError(Throwable t) {
-                responseObserver.onError(t);
+                log.error("queryClientStream", t);
             }
 
             @Override
@@ -103,7 +103,7 @@ public class StreamService extends StreamServiceGrpc.StreamServiceImplBase {
 
             @Override
             public void onError(Throwable t) {
-                responseObserver.onError(t);
+                log.error("queryAllStream", t);
             }
 
             @Override
