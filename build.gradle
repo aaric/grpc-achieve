@@ -23,7 +23,7 @@ buildscript {
 
 allprojects {
     group "com.incarcloud"
-    version "0.5.0-SNAPSHOT"
+    version "0.6.0-SNAPSHOT"
 
     repositories {
         maven { url "https://maven.aliyun.com/repository/public" }
@@ -78,6 +78,7 @@ subprojects {
 
             dependency "org.apache.commons:commons-io:1.3.2"
             dependency "org.apache.commons:commons-lang3:3.10"
+            dependency "org.apache.commons:commons-collections4:4.4"
 
             dependency "com.google.guava:guava:28.2-jre"
 
@@ -90,6 +91,9 @@ subprojects {
 
             dependency "org.apache.hbase:hbase-client:1.2.12"
             dependency "org.apache.hbase:hbase-shaded-client:1.2.12"
+
+            dependency "com.incarcloud:zs-grpc-register-support:2.1-SNAPSHOT"
+            dependency "com.incarcloud:zs-grpc-pvo-support:2.3-SNAPSHOT"
         }
     }
 
