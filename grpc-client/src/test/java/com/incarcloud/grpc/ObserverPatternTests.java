@@ -37,24 +37,33 @@ public class ObserverPatternTests {
 
     static class ValueObserver implements Observer {
 
+        private Subject subject;
+
+        public ValueObserver(Subject subject) {
+            this.subject = subject;
+            this.subject.addObserver(this);
+        }
+
         @Override
         public void update(Observable o, Object arg) {
             System.err.println("Update called with Arguments: " + arg);
+        }
+
+        public void destroy() {
+            this.subject.deleteObserver(this);
         }
     }
 
     @Test
     public void testObserver() {
         Subject subject = new Subject("hello world");
-        ValueObserver valueObserver = new ValueObserver();
+        ValueObserver valueObserver = new ValueObserver(subject);
 
         subject.setValue("hello java");
 
-        subject.addObserver(valueObserver);
-
         subject.setValue("hello kotlin");
 
-        subject.deleteObserver(valueObserver);
+        valueObserver.destroy();
 
         subject.setValue("hello groovy");
     }
