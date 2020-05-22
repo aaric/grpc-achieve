@@ -8,7 +8,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
@@ -25,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 public class GRpcClientTests {
 
     @Test
-    @Disabled
     public void testSimple() throws InterruptedException {
         // 创建通道和存根
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
@@ -150,7 +148,7 @@ public class GRpcClientTests {
     }
 
     @Test
-    public void testQueryAllStream() throws InterruptedException {
+    public void testQueryDualStream() throws InterruptedException {
         // 倒计时
         final CountDownLatch latch = new CountDownLatch(1);
 
@@ -161,7 +159,7 @@ public class GRpcClientTests {
         StreamServiceGrpc.StreamServiceStub stub = StreamServiceGrpc.newStub(channel);
 
         // 双流模式
-        StreamObserver<Stream.StreamParam> observer = stub.queryClientStream(new StreamObserver<Stream.StreamData>() {
+        StreamObserver<Stream.StreamParam> observer = stub.queryDualStream(new StreamObserver<Stream.StreamData>() {
 
             @Override
             public void onNext(Stream.StreamData value) {

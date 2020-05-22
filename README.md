@@ -4,7 +4,7 @@
 [![java](https://img.shields.io/badge/java-1.8-brightgreen.svg?style=flat&logo=java)](https://www.oracle.com/java/technologies/javase-downloads.html)
 [![gradle](https://img.shields.io/badge/gradle-6.3-brightgreen.svg?style=flat&logo=gradle)](https://docs.gradle.org/6.3/userguide/installation.html)
 [![build](https://github.com/aaric/grpc-achieve/workflows/build/badge.svg)](https://github.com/aaric/grpc-achieve/actions)
-[![release](https://img.shields.io/badge/release-0.6.0-blue.svg)](https://github.com/aaric/grpc-achieve/releases)
+[![release](https://img.shields.io/badge/release-0.6.1-blue.svg)](https://github.com/aaric/grpc-achieve/releases)
 
 > gRPC Learning.
 
@@ -27,6 +27,8 @@ hbase> create 'test', \
 
 ## `gRPC`与`HBase`客户端冲突分析
 
+> [`compile "org.apache.hbase:hbase-shaded-client:1.2.0"`](https://mvnrepository.com/artifact/org.apache.hbase/hbase-shaded-client)
+
 ```text
 # io.grpc:grpc-all:1.28.1
   -> com.google.guava:guava:28.1-android  //最低版本：26.0-android
@@ -35,3 +37,17 @@ hbase> create 'test', \
 # org.apache.hbase:hbase-client -> 1.3.6
   -> com.google.guava:guava:12.0.1
 ```
+
+## `gRPC`流模式
+
+### 服务端流模式
+
+客户端请求一次，服务端可返回多次结果。
+
+### 客户端流模式
+
+客户端请求多次，服务端一次返回结果。
+
+### 双流模式
+
+客户端请求多次，服务端多次返回结果。

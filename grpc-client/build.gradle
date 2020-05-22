@@ -1,3 +1,5 @@
+apply plugin: "org.springframework.boot"
+
 dependencies {
     compile project(":grpc-proto")
 
@@ -5,6 +7,9 @@ dependencies {
 
     compile "com.incarcloud:zs-grpc-register-support"
     compile "com.incarcloud:zs-grpc-pvo-support"
+
+    compile "org.springframework.boot:spring-boot-starter"
+    compile "org.springframework.boot:spring-boot-starter-log4j2"
 
     testCompile "org.slf4j:slf4j-simple"
 }

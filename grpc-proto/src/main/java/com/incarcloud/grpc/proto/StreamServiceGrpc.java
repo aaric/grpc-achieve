@@ -90,34 +90,34 @@ public final class StreamServiceGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Stream.StreamParam,
-      com.incarcloud.grpc.proto.Stream.StreamData> getQueryAllStreamMethod;
+      com.incarcloud.grpc.proto.Stream.StreamData> getQueryDualStreamMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "queryAllStream",
+      fullMethodName = SERVICE_NAME + '/' + "queryDualStream",
       requestType = com.incarcloud.grpc.proto.Stream.StreamParam.class,
       responseType = com.incarcloud.grpc.proto.Stream.StreamData.class,
       methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
   public static io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Stream.StreamParam,
-      com.incarcloud.grpc.proto.Stream.StreamData> getQueryAllStreamMethod() {
-    io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Stream.StreamParam, com.incarcloud.grpc.proto.Stream.StreamData> getQueryAllStreamMethod;
-    if ((getQueryAllStreamMethod = StreamServiceGrpc.getQueryAllStreamMethod) == null) {
+      com.incarcloud.grpc.proto.Stream.StreamData> getQueryDualStreamMethod() {
+    io.grpc.MethodDescriptor<com.incarcloud.grpc.proto.Stream.StreamParam, com.incarcloud.grpc.proto.Stream.StreamData> getQueryDualStreamMethod;
+    if ((getQueryDualStreamMethod = StreamServiceGrpc.getQueryDualStreamMethod) == null) {
       synchronized (StreamServiceGrpc.class) {
-        if ((getQueryAllStreamMethod = StreamServiceGrpc.getQueryAllStreamMethod) == null) {
-          StreamServiceGrpc.getQueryAllStreamMethod = getQueryAllStreamMethod =
+        if ((getQueryDualStreamMethod = StreamServiceGrpc.getQueryDualStreamMethod) == null) {
+          StreamServiceGrpc.getQueryDualStreamMethod = getQueryDualStreamMethod =
               io.grpc.MethodDescriptor.<com.incarcloud.grpc.proto.Stream.StreamParam, com.incarcloud.grpc.proto.Stream.StreamData>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "queryAllStream"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "queryDualStream"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.incarcloud.grpc.proto.Stream.StreamParam.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   com.incarcloud.grpc.proto.Stream.StreamData.getDefaultInstance()))
-              .setSchemaDescriptor(new StreamServiceMethodDescriptorSupplier("queryAllStream"))
+              .setSchemaDescriptor(new StreamServiceMethodDescriptorSupplier("queryDualStream"))
               .build();
         }
       }
     }
-    return getQueryAllStreamMethod;
+    return getQueryDualStreamMethod;
   }
 
   /**
@@ -193,9 +193,9 @@ public final class StreamServiceGrpc {
      * 双流模式
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamParam> queryAllStream(
+    public io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamParam> queryDualStream(
         io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamData> responseObserver) {
-      return asyncUnimplementedStreamingCall(getQueryAllStreamMethod(), responseObserver);
+      return asyncUnimplementedStreamingCall(getQueryDualStreamMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -215,12 +215,12 @@ public final class StreamServiceGrpc {
                 com.incarcloud.grpc.proto.Stream.StreamData>(
                   this, METHODID_QUERY_CLIENT_STREAM)))
           .addMethod(
-            getQueryAllStreamMethod(),
+            getQueryDualStreamMethod(),
             asyncBidiStreamingCall(
               new MethodHandlers<
                 com.incarcloud.grpc.proto.Stream.StreamParam,
                 com.incarcloud.grpc.proto.Stream.StreamData>(
-                  this, METHODID_QUERY_ALL_STREAM)))
+                  this, METHODID_QUERY_DUAL_STREAM)))
           .build();
     }
   }
@@ -266,10 +266,10 @@ public final class StreamServiceGrpc {
      * 双流模式
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamParam> queryAllStream(
+    public io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamParam> queryDualStream(
         io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamData> responseObserver) {
       return asyncBidiStreamingCall(
-          getChannel().newCall(getQueryAllStreamMethod(), getCallOptions()), responseObserver);
+          getChannel().newCall(getQueryDualStreamMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -316,7 +316,7 @@ public final class StreamServiceGrpc {
 
   private static final int METHODID_QUERY_SERVER_STREAM = 0;
   private static final int METHODID_QUERY_CLIENT_STREAM = 1;
-  private static final int METHODID_QUERY_ALL_STREAM = 2;
+  private static final int METHODID_QUERY_DUAL_STREAM = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -352,8 +352,8 @@ public final class StreamServiceGrpc {
         case METHODID_QUERY_CLIENT_STREAM:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.queryClientStream(
               (io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamData>) responseObserver);
-        case METHODID_QUERY_ALL_STREAM:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.queryAllStream(
+        case METHODID_QUERY_DUAL_STREAM:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.queryDualStream(
               (io.grpc.stub.StreamObserver<com.incarcloud.grpc.proto.Stream.StreamData>) responseObserver);
         default:
           throw new AssertionError();
@@ -408,7 +408,7 @@ public final class StreamServiceGrpc {
               .setSchemaDescriptor(new StreamServiceFileDescriptorSupplier())
               .addMethod(getQueryServerStreamMethod())
               .addMethod(getQueryClientStreamMethod())
-              .addMethod(getQueryAllStreamMethod())
+              .addMethod(getQueryDualStreamMethod())
               .build();
         }
       }

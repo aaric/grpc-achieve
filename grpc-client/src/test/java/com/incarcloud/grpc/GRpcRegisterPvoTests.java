@@ -10,6 +10,10 @@ import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -25,12 +29,12 @@ public class GRpcRegisterPvoTests {
     @Test
     public void testCallback() {
         // 注册登记查询vin所属pvo
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.79.61", 40000)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000)
                 .usePlaintext()
                 .build();
         PvoServiceGrpc.PvoServiceBlockingStub stub = PvoServiceGrpc.newBlockingStub(channel);
         Register.QueryServerParam param = Register.QueryServerParam.newBuilder()
-                .setVin("LFV2A21J970002030")
+                .setVin("LFV2A21J970002040")
                 .build();
         Register.QueryServerData data = stub.queryServer(param);
         log.info("data: {}", data);
@@ -50,12 +54,25 @@ public class GRpcRegisterPvoTests {
     }
 
     @Test
+    public void testQueryPosition() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+                .usePlaintext()
+                .build();
+        Jt808DataServiceGrpc.Jt808DataServiceBlockingStub stub = Jt808DataServiceGrpc.newBlockingStub(channel);
+        Pvo.PositionParam param = Pvo.PositionParam.newBuilder()
+                .setVin("LFV2A21J970002010")
+                .build();
+        Pvo.PositionData data = stub.queryPosition(param);
+        log.info("data: {}", data);
+    }
+
+    @Test
     public void testQueryPositionStream() throws InterruptedException {
         // 倒计时
         final CountDownLatch latch = new CountDownLatch(1);
 
         // 创建通道和存根
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 12345)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
                 .build();
         Jt808DataServiceGrpc.Jt808DataServiceStub stub = Jt808DataServiceGrpc.newStub(channel);
@@ -65,7 +82,9 @@ public class GRpcRegisterPvoTests {
 
             @Override
             public void onNext(Pvo.PositionData value) {
-                log.info("longitude: {}, latitude: {}", value.getLongitude(), value.getLatitude());
+                Date detectionTime = Date.from(Instant.ofEpochMilli(value.getDetectionTime()));
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                log.info("longitude: {}, latitude: {}, detectionTime: {}", value.getLongitude(), value.getLatitude(), dateFormat.format(detectionTime));
             }
 
             @Override
