@@ -29,7 +29,7 @@ public class GRpcRegisterPvoTests {
     @Test
     public void testCallback() {
         // 注册登记查询vin所属pvo
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.79.61", 40000)
                 .usePlaintext()
                 .build();
         PvoServiceGrpc.PvoServiceBlockingStub stub = PvoServiceGrpc.newBlockingStub(channel);
@@ -46,7 +46,7 @@ public class GRpcRegisterPvoTests {
                     .build();
             Jt808DataServiceGrpc.Jt808DataServiceBlockingStub stub2 = Jt808DataServiceGrpc.newBlockingStub(channel2);
             Pvo.PositionParam param2 = Pvo.PositionParam.newBuilder()
-                    .setVin("LFV2A21J970002030")
+                    .setVin("LFV2A21J970002040")
                     .build();
             Pvo.PositionData data2 = stub2.queryPosition(param2);
             log.info("data2: {}", data2);

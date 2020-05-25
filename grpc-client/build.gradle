@@ -3,14 +3,18 @@ apply plugin: "org.springframework.boot"
 dependencies {
     compile project(":grpc-proto")
 
-    compile "org.apache.commons:commons-lang3"
-    compile "org.apache.commons:commons-collections4"
+    compile(
+            "org.apache.commons:commons-lang3",
+            "org.apache.commons:commons-collections4",
 
-    compile "com.incarcloud:zs-grpc-register-support"
-    compile "com.incarcloud:zs-grpc-pvo-support"
+            "com.incarcloud:zs-grpc-register-support",
+            "com.incarcloud:zs-grpc-pvo-support",
 
-    compile "org.springframework.boot:spring-boot-starter"
-    compile "org.springframework.boot:spring-boot-starter-log4j2"
+            "org.springframework.boot:spring-boot-starter",
+            "org.springframework.boot:spring-boot-starter-log4j2"
+    )
 
-    testCompile "org.slf4j:slf4j-simple"
+    testCompile(
+            "org.slf4j:slf4j-simple"
+    )
 }
