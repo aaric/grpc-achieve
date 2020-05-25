@@ -89,6 +89,7 @@ public class GRpcRegisterPvoTests {
 
             @Override
             public void onError(Throwable t) {
+                // 打印异常日志
                 log.error("testQueryAllStream", t);
             }
 
@@ -103,13 +104,15 @@ public class GRpcRegisterPvoTests {
 
         // 构建请求参数
         Pvo.PositionDataStreamParam request = Pvo.PositionDataStreamParam.newBuilder()
-                .setVin("LFV2A21J880002020")
+                .setVin("LFV2A21J970002010")
                 .setType(1)
                 .build();
 
         // 发起请求
         for (int i = 0; i < 5; i++) {
             observer.onNext(request);
+
+            TimeUnit.SECONDS.sleep(10);
         }
 
         // 结束本次请求
