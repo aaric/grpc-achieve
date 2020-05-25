@@ -113,7 +113,7 @@ public class GRpcRegisterPvoTests {
         for (int i = 0; i < 5; i++) {
             observer.onNext(request);
 
-            TimeUnit.SECONDS.sleep(100);
+            TimeUnit.SECONDS.sleep(10);
         }
 
         // 关闭监听
