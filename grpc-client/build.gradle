@@ -3,6 +3,7 @@ apply plugin: "org.springframework.boot"
 dependencies {
     compile project(":grpc-proto")
 
+    compile "org.apache.commons:commons-lang3"
     compile "org.apache.commons:commons-collections4"
 
     compile "com.incarcloud:zs-grpc-register-support"
