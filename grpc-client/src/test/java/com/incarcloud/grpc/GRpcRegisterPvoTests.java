@@ -103,8 +103,9 @@ public class GRpcRegisterPvoTests {
         });
 
         // 构建请求参数
+        String testVin = "LFV2A21J970002010"; //LFV2A21J970002040
         Pvo.PositionDataStreamParam request = Pvo.PositionDataStreamParam.newBuilder()
-                .setVin("LFV2A21J970002040")
+                .setVin(testVin)
                 .setType(1)
                 .build();
 
@@ -117,7 +118,7 @@ public class GRpcRegisterPvoTests {
 
         // 关闭监听
         request = Pvo.PositionDataStreamParam.newBuilder()
-                .setVin("LFV2A21J970002010") //LFV2A21J970002040
+                .setVin(testVin)
                 .setType(2)
                 .build();
         observer.onNext(request);
