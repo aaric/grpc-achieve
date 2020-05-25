@@ -72,7 +72,7 @@ public class GRpcRegisterPvoTests {
         final CountDownLatch latch = new CountDownLatch(1);
 
         // 创建通道和存根
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //116.63.79.61
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.79.61", 40010) //116.63.79.61
                 .usePlaintext()
                 .build();
         Jt808DataServiceGrpc.Jt808DataServiceStub stub = Jt808DataServiceGrpc.newStub(channel);
@@ -83,7 +83,7 @@ public class GRpcRegisterPvoTests {
             @Override
             public void onNext(Pvo.PositionData value) {
                 Date detectionTime = Date.from(Instant.ofEpochMilli(value.getDetectionTime()));
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 log.info("longitude: {}, latitude: {}, detectionTime: {}", value.getLongitude(), value.getLatitude(), dateFormat.format(detectionTime));
             }
 
@@ -103,17 +103,17 @@ public class GRpcRegisterPvoTests {
         });
 
         // 构建请求参数
-        String testVin = "LFV2A21J970002010"; //LFV2A21J970002040
+        String testVin = "LFV2A21J970002040"; //LFV2A21J970002040
         Pvo.PositionDataStreamParam request = Pvo.PositionDataStreamParam.newBuilder()
                 .setVin(testVin)
                 .setType(1)
                 .build();
 
         // 发起请求
+        observer.onNext(request);
         for (int i = 0; i < 5; i++) {
-            observer.onNext(request);
 
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(100);
         }
 
         // 关闭监听
