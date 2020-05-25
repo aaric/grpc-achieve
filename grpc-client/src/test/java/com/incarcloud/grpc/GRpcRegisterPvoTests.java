@@ -29,7 +29,7 @@ public class GRpcRegisterPvoTests {
     @Test
     public void testCallback() {
         // 注册登记查询vin所属pvo
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.79.61", 40000)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000) //116.63.79.61
                 .usePlaintext()
                 .build();
         PvoServiceGrpc.PvoServiceBlockingStub stub = PvoServiceGrpc.newBlockingStub(channel);
@@ -72,7 +72,7 @@ public class GRpcRegisterPvoTests {
         final CountDownLatch latch = new CountDownLatch(1);
 
         // 创建通道和存根
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //116.63.79.61
                 .usePlaintext()
                 .build();
         Jt808DataServiceGrpc.Jt808DataServiceStub stub = Jt808DataServiceGrpc.newStub(channel);
@@ -104,7 +104,7 @@ public class GRpcRegisterPvoTests {
 
         // 构建请求参数
         Pvo.PositionDataStreamParam request = Pvo.PositionDataStreamParam.newBuilder()
-                .setVin("LFV2A21J970002010")
+                .setVin("LFV2A21J970002040")
                 .setType(1)
                 .build();
 
@@ -112,8 +112,15 @@ public class GRpcRegisterPvoTests {
         for (int i = 0; i < 5; i++) {
             observer.onNext(request);
 
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(100);
         }
+
+        // 关闭监听
+        request = Pvo.PositionDataStreamParam.newBuilder()
+                .setVin("LFV2A21J970002010") //LFV2A21J970002040
+                .setType(2)
+                .build();
+        observer.onNext(request);
 
         // 结束本次请求
         observer.onCompleted();
