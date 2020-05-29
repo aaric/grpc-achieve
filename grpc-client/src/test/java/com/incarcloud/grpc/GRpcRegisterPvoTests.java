@@ -1,7 +1,7 @@
 package com.incarcloud.grpc;
 
+import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
-import com.incarcloud.proto.gateway.GatewayCommandServiceGrpc;
 import com.incarcloud.proto.pvo.IcDataServiceGrpc;
 import com.incarcloud.proto.pvo.Jt808DataServiceGrpc;
 import com.incarcloud.proto.pvo.Pvo;
@@ -85,12 +85,16 @@ public class GRpcRegisterPvoTests {
             ManagedChannel channel2 = ManagedChannelBuilder.forAddress(data.getHostname(), data.getPort())
                     .usePlaintext()
                     .build();
-            GatewayCommandServiceGrpc.GatewayCommandServiceBlockingStub stub2 = GatewayCommandServiceGrpc.newBlockingStub(channel2);
-            Gateway.GatewayCommandParam param2 = Gateway.GatewayCommandParam.newBuilder()
+            CommandServiceGrpc.CommandServiceBlockingStub stub2 = CommandServiceGrpc.newBlockingStub(channel2);
+            Gateway.CommandParam param2 = Gateway.CommandParam.newBuilder()
+                    .setMsgId(0x80)
+                    .setMsgSn(Instant.now().toEpochMilli())
                     .setDeviceId("CS20200124")
+                    .setVin("LFV2A21J970002020")
                     .setCommandString(Base64.getEncoder().encodeToString("hello world".getBytes()))
                     .build();
-            Gateway.GatewayCommandData data2 = stub2.executeCommand(param2);
+
+            Gateway.CommandData data2 = stub2.execute(param2);
             channel2.shutdownNow();
 
             log.info("data2: {}", data2);
