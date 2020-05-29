@@ -1,5 +1,6 @@
 package com.incarcloud.grpc;
 
+import com.incarcloud.boar.datapack.DataParserIc;
 import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
 import com.incarcloud.proto.pvo.IcDataServiceGrpc;
@@ -68,7 +69,7 @@ public class GRpcRegisterPvoTests {
     @Test
     public void testExecuteCommand() {
         // 注册登记查询deviceId所属gateway
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.79.61", 40000) //116.63.79.61
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000) //116.63.79.61
                 .usePlaintext()
                 .build();
         GatewayServiceGrpc.GatewayServiceBlockingStub stub = GatewayServiceGrpc.newBlockingStub(channel);
@@ -91,6 +92,7 @@ public class GRpcRegisterPvoTests {
                     .setMsgSn(Instant.now().toEpochMilli())
                     .setDeviceId("CS20200124")
                     .setVin("LFV2A21J970002020")
+                    .setProtocolName(DataParserIc.PROTOCOL_NAME)
                     .setCommandString(Base64.getEncoder().encodeToString("hello world".getBytes()))
                     .build();
 
