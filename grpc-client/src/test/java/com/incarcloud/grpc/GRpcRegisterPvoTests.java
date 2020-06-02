@@ -1,5 +1,6 @@
 package com.incarcloud.grpc;
 
+import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.boar.datapack.DataParserIc;
 import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
@@ -83,6 +84,7 @@ public class GRpcRegisterPvoTests {
 
         // 发下指令
         if (StringUtils.isNotBlank(data.getHostname())) {
+            byte[] commandBytes = HexStringUtil.parseBytes("292907001E0A435332303230303132335ED073C202000000000000001B653C30DFB00D");
             ManagedChannel channel2 = ManagedChannelBuilder.forAddress(data.getHostname(), data.getPort())
                     .usePlaintext()
                     .build();
@@ -93,7 +95,7 @@ public class GRpcRegisterPvoTests {
                     .setDeviceId("CS20200124")
                     .setVin("LFV2A21J970002020")
                     .setProtocolName(DataParserIc.PROTOCOL_NAME)
-                    .setCommandString(Base64.getEncoder().encodeToString("hello world".getBytes()))
+                    .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
                     .build();
 
             Gateway.CommandData data2 = stub2.execute(param2);
@@ -105,6 +107,7 @@ public class GRpcRegisterPvoTests {
 
     @Test
     public void testExecuteCommandForResult() {
+        byte[] commandBytes = HexStringUtil.parseBytes("292907001E0A435332303230303132335ED073C202000000000000001B653C30DFB00D");
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40020)
                 .usePlaintext()
                 .build();
@@ -114,7 +117,7 @@ public class GRpcRegisterPvoTests {
                 .setDeviceId("CS20200123")
                 .setVin("LFV2A21J970002019")
                 .setProtocolName(DataParserIc.PROTOCOL_NAME)
-                .setCommandString(Base64.getEncoder().encodeToString("hello world".getBytes()))
+                .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
                 .build();
 
         Gateway.CommandData data2 = stub.executeForResult(param);
