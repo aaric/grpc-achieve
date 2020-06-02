@@ -88,8 +88,8 @@ public class GRpcRegisterPvoTests {
                     .build();
             CommandServiceGrpc.CommandServiceBlockingStub stub2 = CommandServiceGrpc.newBlockingStub(channel2);
             Gateway.CommandParam param2 = Gateway.CommandParam.newBuilder()
-                    .setMsgId(0x80)
-                    .setMsgSn(Instant.now().toEpochMilli())
+                    /*.setMsgId(0x07)*/
+                    .setMsgSn(1590719426)
                     .setDeviceId("CS20200124")
                     .setVin("LFV2A21J970002020")
                     .setProtocolName(DataParserIc.PROTOCOL_NAME)
@@ -101,6 +101,26 @@ public class GRpcRegisterPvoTests {
 
             log.info("data2: {}", data2);
         }
+    }
+
+    @Test
+    public void testExecuteCommandForResult() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40020)
+                .usePlaintext()
+                .build();
+        CommandServiceGrpc.CommandServiceBlockingStub stub = CommandServiceGrpc.newBlockingStub(channel);
+        Gateway.CommandParam param = Gateway.CommandParam.newBuilder()
+                .setMsgSn(1590719426)
+                .setDeviceId("CS20200123")
+                .setVin("LFV2A21J970002019")
+                .setProtocolName(DataParserIc.PROTOCOL_NAME)
+                .setCommandString(Base64.getEncoder().encodeToString("hello world".getBytes()))
+                .build();
+
+        Gateway.CommandData data2 = stub.executeForResult(param);
+        channel.shutdownNow();
+
+        log.info("data2: {}", data2);
     }
 
     @Test
