@@ -13,17 +13,19 @@ buildscript {
     }
 
     dependencies {
-        classpath "io.freefair.gradle:lombok-plugin:$lombokVersion"
-        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion"
-        classpath "io.spring.gradle:dependency-management-plugin:$dependencyManagementVersion"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-        classpath "gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
+        classpath(
+                "io.freefair.gradle:lombok-plugin:$lombokVersion",
+                "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion",
+                "io.spring.gradle:dependency-management-plugin:$dependencyManagementVersion",
+                "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion",
+                "gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
+        )
     }
 }
 
 allprojects {
     group "com.incarcloud"
-    version "0.6.2-SNAPSHOT"
+    version "0.6.3-SNAPSHOT"
 
     repositories {
         maven { url "https://maven.aliyun.com/repository/public" }
@@ -45,6 +47,8 @@ subprojects {
             extendsFrom developmentOnly
         }
         all {
+            exclude group: "junit", module: "junit"
+            exclude group: "org.junit.vintage", module: "junit-vintage-engine"
             exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
         }
     }
@@ -52,12 +56,12 @@ subprojects {
     dependencies {
         compile "org.slf4j:slf4j-api"
 
-        testCompile "org.junit.jupiter:junit-jupiter-api"
+        testCompile(
+                "org.junit.jupiter:junit-jupiter-api",
+                "org.springframework.boot:spring-boot-starter-test"
+        )
+
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-        testCompile("org.springframework.boot:spring-boot-starter-test") {
-            exclude group: "junit", module: "junit"
-            exclude group: "org.junit.vintage", module: "junit-vintage-engine"
-        }
 
         developmentOnly "org.springframework.boot:spring-boot-devtools" //支持热部署依赖
     }
@@ -93,7 +97,10 @@ subprojects {
             dependency "org.apache.hbase:hbase-shaded-client:1.2.0"
 
             dependency "com.incarcloud:zs-grpc-register-support:2.1-SNAPSHOT"
-            dependency "com.incarcloud:zs-grpc-pvo-support:2.3-SNAPSHOT"
+            dependency "com.incarcloud:zs-grpc-pvo-support:2.5-SNAPSHOT"
+            dependency "com.incarcloud:zs-grpc-gateway-support:2.4-SNAPSHOT"
+
+            dependency "com.incarcloud:boar-datapack-ic:1.2-SNAPSHOT"
         }
     }
 

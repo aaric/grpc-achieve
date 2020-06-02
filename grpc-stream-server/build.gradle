@@ -3,6 +3,8 @@ apply plugin: "org.springframework.boot"
 dependencies {
     compile project(":grpc-proto")
 
-    compile "org.springframework.boot:spring-boot-starter"
-    compile "org.springframework.boot:spring-boot-starter-log4j2"
+    compile (
+            "org.springframework.boot:spring-boot-starter",
+            "org.springframework.boot:spring-boot-starter-log4j2"
+    )
 }
