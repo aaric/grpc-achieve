@@ -138,6 +138,21 @@ public class GRpcRegisterPvoTests {
     }
 
     @Test
+    public void testQueryStatus() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+                .usePlaintext()
+                .build();
+        Jt808DataServiceGrpc.Jt808DataServiceBlockingStub stub = Jt808DataServiceGrpc.newBlockingStub(channel);
+        Pvo.StatusParam param = Pvo.StatusParam.newBuilder()
+                .setVin("LFV2A21J970002010")
+                .build();
+        Pvo.StatusData data = stub.queryStatus(param);
+        channel.shutdownNow();
+
+        log.info("data: {}", data);
+    }
+
+    @Test
     public void testQueryPosition() {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
