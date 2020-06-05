@@ -13,7 +13,9 @@ import com.incarcloud.proto.register.Register;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import io.netty.buffer.ByteBufUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 
@@ -65,6 +67,15 @@ public class GRpcRegisterPvoTests {
 
             log.info("data2: {}", data2);
         }
+    }
+
+    @Test
+    public void testHelloBytes() {
+        byte[] helloBytes = Base64.getDecoder().decode("KSkHAB4KQ1MyMDIwMDEyNIIpxrgBAAAAAAAAAAJQpWaB0g0=");
+        log.info(ByteBufUtil.hexDump(helloBytes));
+        log.info("epoch milli: {}", Instant.now().toEpochMilli());
+        log.info("epoch second: {}", Instant.now().getEpochSecond());
+        Assertions.assertNotNull(helloBytes);
     }
 
     @Test
