@@ -25,6 +25,14 @@ import java.util.Base64;
 public class GRpcDataPackTests {
 
     @Test
+    public void testDI() {
+        String hexString = "594b3132313831323837";
+        String deviceId = new String(ByteBufUtil.decodeHexDump(hexString));
+        log.info("deviceId -> {}", deviceId);
+        Assertions.assertNotNull(deviceId);
+    }
+
+    @Test
     public void testPack() {
         String cmdString = "KSkKABoKWUsxMjE4MTI4N17m7i//////Vx7Wc7ucDQ==";
         String cmdBytes = ByteBufUtil.hexDump(Base64.getDecoder().decode(cmdString));
@@ -35,7 +43,7 @@ public class GRpcDataPackTests {
     @Test
     public void testMakeMaxRowKey() {
         //String rowKey = RowKeyUtil.makeMaxRowKey("CS123456720242617", "OVERVIEW");
-        String rowKey = RowKeyUtil.makeMaxRowKey("LVGBPB9E7KG006111", "OVERVIEW");
+        String rowKey = RowKeyUtil.makeMaxRowKey("LFV2A21J970002020", "OVERVIEW");
         log.info("row key: {}", rowKey);
         Assertions.assertNotNull(rowKey);
     }
@@ -59,7 +67,7 @@ public class GRpcDataPackTests {
     @Test
     public void testQueryRangeForIcCheck() throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.79.61", 40010) //192.168.1.58
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
                 .build();
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
