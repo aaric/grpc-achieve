@@ -3,6 +3,8 @@ package com.incarcloud.grpc;
 import com.incarcloud.boar.util.RowKeyUtil;
 import com.incarcloud.proto.pvo.DataPack;
 import com.incarcloud.proto.pvo.DataPackServiceGrpc;
+import com.incarcloud.proto.pvo.IcDataServiceGrpc;
+import com.incarcloud.proto.pvo.Pvo;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.netty.buffer.ByteBufUtil;
@@ -25,25 +27,26 @@ import java.util.Base64;
 public class GRpcDataPackTests {
 
     @Test
-    public void testDI() {
-        String hexString = "594b3132313831323837";
-        String deviceId = new String(ByteBufUtil.decodeHexDump(hexString));
-        log.info("deviceId -> {}", deviceId);
-        Assertions.assertNotNull(deviceId);
-    }
-
-    @Test
     public void testPack() {
-        String cmdString = "KSkKABoKWUsxMjE4MTI4N17m7i//////Vx7Wc7ucDQ==";
+        String cmdString = "KSkKABoKWUsxMjAxNDkyMV7oQUX/////VT6r69y4DQ==";
         String cmdBytes = ByteBufUtil.hexDump(Base64.getDecoder().decode(cmdString));
         log.info("cmdBytes -> {}", cmdBytes);
         Assertions.assertNotNull(cmdBytes);
     }
 
     @Test
+    public void testDeviceId() {
+        String hexString = "594b3132303134393231";
+        String deviceId = new String(ByteBufUtil.decodeHexDump(hexString));
+        log.info("deviceId -> {}", deviceId);
+        Assertions.assertNotNull(deviceId);
+    }
+
+    @Test
     public void testMakeMaxRowKey() {
         //String rowKey = RowKeyUtil.makeMaxRowKey("CS123456720242617", "OVERVIEW");
-        String rowKey = RowKeyUtil.makeMaxRowKey("LFV2A21J970002020", "OVERVIEW");
+        //String rowKey = RowKeyUtil.makeMaxRowKey("LFV2A21J970002020", "OVERVIEW");
+        String rowKey = RowKeyUtil.makeMaxRowKey("LVGBPB9E7KG006111", "CHECK");
         log.info("row key: {}", rowKey);
         Assertions.assertNotNull(rowKey);
     }
@@ -58,6 +61,22 @@ public class GRpcDataPackTests {
                 .setRowKey("3cca000LFV2A21J970002010JTT808POSITION#20180417114218####0001")
                 .build();
         DataPack.Jtt808PositionData data = stub.queryDataForJtt808Position(param);
+        channel.shutdownNow();
+
+        log.info("data: {}", data);
+        Assertions.assertNotNull(data);
+    }
+
+    @Test
+    public void testQueryDataForIcOverview() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //122.9.51.1
+                .usePlaintext()
+                .build();
+        DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
+        DataPack.KeyParam param = DataPack.KeyParam.newBuilder()
+                .setRowKey("d98e000LVGBPB9E7KG006111OVERVIEW#######20200617093645####0001")
+                .build();
+        DataPack.IcOverviewData data = stub.queryDataForIcOverview(param);
         channel.shutdownNow();
 
         log.info("data: {}", data);
@@ -81,6 +100,23 @@ public class GRpcDataPackTests {
         DataPack.IcCheckDataList data = stub.queryRangeForIcCheck(param);
         channel.shutdownNow();
 
+        log.info("data: {}", data);
+        Assertions.assertNotNull(data);
+    }
+
+    @Test
+    public void testQueryStatus() throws Exception {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //122.9.51.1
+                .usePlaintext()
+                .build();
+        IcDataServiceGrpc.IcDataServiceBlockingStub stub = IcDataServiceGrpc.newBlockingStub(channel);
+        Pvo.StatusParam param = Pvo.StatusParam.newBuilder()
+                .setVin("LVGBPB9E7KG006111") //车架号
+                .build();
+        Pvo.StatusData data = stub.queryStatus(param);
+        channel.shutdownNow();
+
+        // 车辆状态：0-未知, 1-在线, 2-离线, 3-异常, 4-行驶中, 5-待机
         log.info("data: {}", data);
         Assertions.assertNotNull(data);
     }
