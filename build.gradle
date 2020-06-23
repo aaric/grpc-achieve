@@ -97,7 +97,7 @@ subprojects {
             dependency "org.apache.hbase:hbase-shaded-client:1.2.0"
 
             dependency "com.incarcloud:zs-grpc-register-support:2.1-SNAPSHOT"
-            dependency "com.incarcloud:zs-grpc-pvo-support:2.10-SNAPSHOT"
+            dependency "com.incarcloud:zs-grpc-pvo-support:2.11-SNAPSHOT"
             dependency "com.incarcloud:zs-grpc-gateway-support:2.4-SNAPSHOT"
 
             dependency "com.incarcloud:boar-datapack-ic:1.2-SNAPSHOT"

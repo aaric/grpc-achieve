@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Date;
 
 /**
  * GRpcDataPackTests
@@ -36,7 +37,7 @@ public class GRpcDataPackTests {
 
     @Test
     public void testDeviceId() {
-        String hexString = "594b3132303134393231";
+        String hexString = "4B455954455354303530";
         String deviceId = new String(ByteBufUtil.decodeHexDump(hexString));
         log.info("deviceId -> {}", deviceId);
         Assertions.assertNotNull(deviceId);
@@ -46,7 +47,8 @@ public class GRpcDataPackTests {
     public void testMakeMaxRowKey() {
         //String rowKey = RowKeyUtil.makeMaxRowKey("CS123456720242617", "OVERVIEW");
         //String rowKey = RowKeyUtil.makeMaxRowKey("LFV2A21J970002020", "OVERVIEW");
-        String rowKey = RowKeyUtil.makeMaxRowKey("LVGBPB9E7KG006111", "CHECK");
+        //String rowKey = RowKeyUtil.makeMaxRowKey("LVGBPB9E7KG006111", "CHECK");
+        String rowKey = RowKeyUtil.makeMaxRowKey("VINTEST0000100001", "OVERVIEW");
         log.info("row key: {}", rowKey);
         Assertions.assertNotNull(rowKey);
     }
@@ -98,6 +100,62 @@ public class GRpcDataPackTests {
                 .setDesc(true) //是否倒序
                 .build();
         DataPack.IcCheckDataList data = stub.queryRangeForIcCheck(param);
+        channel.shutdownNow();
+
+        log.info("data: {}", data);
+        Assertions.assertNotNull(data);
+    }
+
+    @Test
+    public void testQueryRangeForIcOverview() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long start = 1592875710000L;
+        long end = 1592882910000L;
+        System.err.println(dateFormat.format(new Date(start)));
+        System.err.println(dateFormat.format(new Date(end)));
+
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.70.11", 40010)
+                .usePlaintext()
+                .build();
+        DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
+        DataPack.RangeParam param = DataPack.RangeParam.newBuilder()
+                .setVin("VINTEST0000100001") //车架号-LVGBPB9E7KG006111
+//                .setBeginTime(dateFormat.parse("2020-06-01 00:00:00").getTime()) //开始时间
+//                .setEndTime(Instant.now().toEpochMilli()) //结束时间
+                .setBeginTime(start) //开始时间
+                .setEndTime(end) //结束时间
+                .setPageSize(9999) //返回记录条数
+                .setDesc(true) //是否倒序
+                .build();
+        DataPack.IcOverviewDataList data = stub.queryRangeForIcOverview(param);
+        channel.shutdownNow();
+
+        log.info("data: {}", data);
+        Assertions.assertNotNull(data);
+    }
+
+    @Test
+    public void testQueryRangeForIcOverviewMin() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long start = 1592875710000L;
+        long end = 1592882910000L;
+        System.err.println(dateFormat.format(new Date(start)));
+        System.err.println(dateFormat.format(new Date(end)));
+
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.70.11", 40010)
+                .usePlaintext()
+                .build();
+        DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
+        DataPack.RangeParam param = DataPack.RangeParam.newBuilder()
+                .setVin("VINTEST0000100001") //车架号-LVGBPB9E7KG006111
+//                .setBeginTime(dateFormat.parse("2020-06-01 00:00:00").getTime()) //开始时间
+//                .setEndTime(Instant.now().toEpochMilli()) //结束时间
+                .setBeginTime(start) //开始时间
+                .setEndTime(end) //结束时间
+                .setPageSize(9999) //返回记录条数
+                .setDesc(true) //是否倒序
+                .build();
+        DataPack.IcOverviewDataMinList data = stub.queryRangeForIcOverviewMin(param);
         channel.shutdownNow();
 
         log.info("data: {}", data);
