@@ -1,7 +1,12 @@
 package com.incarcloud.grpc;
 
 import com.github.io.protocol.utils.HexStringUtil;
+import com.incarcloud.boar.cmd.CommandFactory;
+import com.incarcloud.boar.cmd.CommandType;
 import com.incarcloud.boar.datapack.DataParserIc;
+import com.incarcloud.boar.datapack.IcCommandFactory;
+import com.incarcloud.boar.datapack.ic.model.control.BluetoothControlData;
+import com.incarcloud.boar.datapack.ic.utils.IcDataPackUtils;
 import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
 import com.incarcloud.proto.pvo.IcDataServiceGrpc;
@@ -13,6 +18,7 @@ import com.incarcloud.proto.register.Register;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -76,6 +82,19 @@ public class GRpcRegisterPvoTests {
         log.info("epoch milli: {}", Instant.now().toEpochMilli());
         log.info("epoch second: {}", Instant.now().getEpochSecond());
         Assertions.assertNotNull(helloBytes);
+    }
+
+    @Test
+    public void testCreateCommandBytes() throws Exception {
+        CommandFactory commandFactory = new IcCommandFactory();
+        BluetoothControlData controlData = new BluetoothControlData();
+        controlData.setBoxFlag("KEYTEST051");
+        controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
+        controlData.setBluetoothSecret(IcDataPackUtils.strToBcd("867858032224872"));
+
+        ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.SET_BLUETOOTH_SECRET, controlData);
+        log.info(ByteBufUtil.hexDump(commandByteBuf));
+        Assertions.assertNotNull(commandByteBuf);
     }
 
     @Test

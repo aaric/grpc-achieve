@@ -142,7 +142,7 @@ public class GRpcDataPackTests {
         System.err.println(dateFormat.format(new Date(start)));
         System.err.println(dateFormat.format(new Date(end)));
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.70.11", 40010)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //116.63.70.11
                 .usePlaintext()
                 .build();
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
