@@ -298,7 +298,7 @@ public class GRpcRegisterPvoTests {
         final CountDownLatch latch = new CountDownLatch(1);
 
         // 创建通道和存根
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("122.9.51.1", 40010) //122.9.51.1
                 .usePlaintext()
                 .build();
         IcDataServiceGrpc.IcDataServiceStub stub = IcDataServiceGrpc.newStub(channel);
@@ -310,7 +310,7 @@ public class GRpcRegisterPvoTests {
             public void onNext(Pvo.VehicleStatusData value) {
                 Date detectionTime = Date.from(Instant.ofEpochMilli(value.getDetectionTime()));
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                log.info("longitude: {}, latitude: {}, gpsSpeed: {}, detectionTime: {}", value.getLongitude(), value.getLatitude(), value.getGpsSpeed(), dateFormat.format(detectionTime));
+                log.info("vin: {}, longitude: {}, latitude: {}, gpsSpeed: {}, detectionTime: {}", value.getVin(), value.getLongitude(), value.getLatitude(), value.getGpsSpeed(), dateFormat.format(detectionTime));
             }
 
             @Override
@@ -329,8 +329,9 @@ public class GRpcRegisterPvoTests {
         });
 
         // 构建请求参数
-        String testVin = "LFV2A21J970002020";
+        String testVin = "TEST0000000000050";
         Pvo.VehicleStatusDataStreamParam request = Pvo.VehicleStatusDataStreamParam.newBuilder()
+                .setAppId("test")
                 .setVin(testVin)
                 .setType(1)
                 .build();
