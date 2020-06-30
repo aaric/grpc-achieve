@@ -298,7 +298,7 @@ public class GRpcRegisterPvoTests {
         final CountDownLatch latch = new CountDownLatch(1);
 
         // 创建通道和存根
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("122.9.51.1", 40010) //122.9.51.1
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //122.9.51.1
                 .usePlaintext()
                 .build();
         IcDataServiceGrpc.IcDataServiceStub stub = IcDataServiceGrpc.newStub(channel);
