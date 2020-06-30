@@ -226,7 +226,7 @@ public class GRpcRegisterPvoTests {
             public void onNext(Pvo.PositionData value) {
                 Date detectionTime = Date.from(Instant.ofEpochMilli(value.getDetectionTime()));
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                log.info("longitude: {}, latitude: {}, detectionTime: {}", value.getLongitude(), value.getLatitude(), dateFormat.format(detectionTime));
+                log.info("vin: {}, longitude: {}, latitude: {}, detectionTime: {}", value.getVin(), value.getLongitude(), value.getLatitude(), dateFormat.format(detectionTime));
             }
 
             @Override
@@ -247,6 +247,7 @@ public class GRpcRegisterPvoTests {
         // 构建请求参数
         String testVin = "LFV2A21J970002010"; //LFV2A21J970002040
         Pvo.PositionDataStreamParam request = Pvo.PositionDataStreamParam.newBuilder()
+                .setAppId("test")
                 .setVin(testVin)
                 .setType(1)
                 .build();
