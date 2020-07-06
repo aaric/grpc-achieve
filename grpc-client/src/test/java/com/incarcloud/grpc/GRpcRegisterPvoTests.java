@@ -98,14 +98,18 @@ public class GRpcRegisterPvoTests {
     }
 
     @Test
-    public void testExecuteCommand() {
+    public void testExecuteCommand() throws Exception {
+        // 设备号
+        String vin = "TESTBOX0000000001";
+        String deviceId = "KEYTEST000001";
+
         // 注册登记查询deviceId所属gateway
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000) //116.63.79.61
                 .usePlaintext()
                 .build();
         GatewayServiceGrpc.GatewayServiceBlockingStub stub = GatewayServiceGrpc.newBlockingStub(channel);
         Register.QueryDeviceParam param = Register.QueryDeviceParam.newBuilder()
-                .setDeviceId("CS20200124")
+                .setDeviceId(deviceId)
                 .build();
         Register.QueryDeviceData data = stub.queryDevice(param);
         channel.shutdownNow();
@@ -114,7 +118,17 @@ public class GRpcRegisterPvoTests {
 
         // 发下指令
         if (StringUtils.isNotBlank(data.getHostname())) {
-            byte[] commandBytes = HexStringUtil.parseBytes("292907001E0A435332303230303132335ED073C202000000000000001B653C30DFB00D");
+            // 创建指令
+            CommandFactory commandFactory = new IcCommandFactory();
+            BluetoothControlData controlData = new BluetoothControlData();
+            controlData.setBoxFlag(deviceId);
+            controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
+            controlData.setBluetoothSecret(IcDataPackUtils.strToBcd("867858032224872"));
+            ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.SET_BLUETOOTH_SECRET, controlData);
+            byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
+            log.info(ByteBufUtil.hexDump(commandByteBuf));
+
+            // 执行指令
             ManagedChannel channel2 = ManagedChannelBuilder.forAddress(data.getHostname(), data.getPort())
                     .usePlaintext()
                     .build();
@@ -122,8 +136,8 @@ public class GRpcRegisterPvoTests {
             Gateway.CommandParam param2 = Gateway.CommandParam.newBuilder()
                     /*.setMsgId(0x07)*/
                     .setMsgSn(1590719426)
-                    .setDeviceId("CS20200124")
-                    .setVin("LFV2A21J970002020")
+                    .setDeviceId(deviceId)
+                    .setVin(vin)
                     .setProtocolName(DataParserIc.PROTOCOL_NAME)
                     .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
                     .build();
