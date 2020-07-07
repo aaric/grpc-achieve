@@ -89,6 +89,7 @@ public class GRpcRegisterPvoTests {
         CommandFactory commandFactory = new IcCommandFactory();
         BluetoothControlData controlData = new BluetoothControlData();
         controlData.setBoxFlag("KEYTEST051");
+        controlData.setCommandId(1L); //msgSn
         controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
         controlData.setBluetoothSecret(IcDataPackUtils.strToBcd("867858032224872"));
 
@@ -102,6 +103,8 @@ public class GRpcRegisterPvoTests {
         // 设备号
         String vin = "TESTBOX0000000001";
         String deviceId = "KEYTEST000001";
+        String imei = "867858032224872";
+        long msgSn = Instant.now().getEpochSecond();
 
         // 注册登记查询deviceId所属gateway
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000) //116.63.79.61
@@ -122,8 +125,9 @@ public class GRpcRegisterPvoTests {
             CommandFactory commandFactory = new IcCommandFactory();
             BluetoothControlData controlData = new BluetoothControlData();
             controlData.setBoxFlag(deviceId);
+            controlData.setCommandId(msgSn);
             controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
-            controlData.setBluetoothSecret(IcDataPackUtils.strToBcd("867858032224872"));
+            controlData.setBluetoothSecret(IcDataPackUtils.strToBcd(imei));
             ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.SET_BLUETOOTH_SECRET, controlData);
             byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
             log.info(ByteBufUtil.hexDump(commandByteBuf));
@@ -135,7 +139,7 @@ public class GRpcRegisterPvoTests {
             CommandServiceGrpc.CommandServiceBlockingStub stub2 = CommandServiceGrpc.newBlockingStub(channel2);
             Gateway.CommandParam param2 = Gateway.CommandParam.newBuilder()
                     /*.setMsgId(0x07)*/
-                    .setMsgSn(1590719426)
+                    .setMsgSn(msgSn)
                     .setDeviceId(deviceId)
                     .setVin(vin)
                     .setProtocolName(DataParserIc.PROTOCOL_NAME)
