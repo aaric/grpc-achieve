@@ -6,6 +6,7 @@ import com.incarcloud.boar.cmd.CommandType;
 import com.incarcloud.boar.datapack.DataParserIc;
 import com.incarcloud.boar.datapack.IcCommandFactory;
 import com.incarcloud.boar.datapack.ic.model.control.BluetoothControlData;
+import com.incarcloud.boar.datapack.ic.model.control.DoorControlData;
 import com.incarcloud.boar.datapack.ic.utils.IcDataPackUtils;
 import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
@@ -123,12 +124,11 @@ public class GRpcRegisterPvoTests {
         if (StringUtils.isNotBlank(data.getHostname())) {
             // 创建指令
             CommandFactory commandFactory = new IcCommandFactory();
-            BluetoothControlData controlData = new BluetoothControlData();
+            DoorControlData controlData = new DoorControlData();
             controlData.setBoxFlag(deviceId);
             controlData.setCommandId(msgSn);
             controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
-            controlData.setBluetoothSecret(IcDataPackUtils.strToBcd(imei));
-            ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.SET_BLUETOOTH_SECRET, controlData);
+            ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.OPEN_DOOR, controlData);
             byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
             log.info(ByteBufUtil.hexDump(commandByteBuf));
 
