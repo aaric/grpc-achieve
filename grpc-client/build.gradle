@@ -1,5 +1,9 @@
 apply plugin: "org.springframework.boot"
 
+repositories {
+    maven { url "http://124.70.73.9:8081/repository/maven-public" }
+}
+
 dependencies {
     compile project(":grpc-proto")
 
