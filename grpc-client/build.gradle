@@ -8,8 +8,8 @@ dependencies {
             "org.apache.commons:commons-collections4",
 
             "com.incarcloud:zs-grpc-register-support:2.1-SNAPSHOT",
-            "com.incarcloud:zs-grpc-pvo-support:2.12-SNAPSHOT",
-            "com.incarcloud:zs-grpc-gateway-support:2.4-SNAPSHOT",
+            "com.incarcloud:zs-grpc-pvo-support:2.14-SNAPSHOT",
+            "com.incarcloud:zs-grpc-gateway-support:2.5-SNAPSHOT",
             "com.incarcloud:zs-connectedcar-platform-support:3.5-SNAPSHOT",
 
             "com.incarcloud:boar-datapack-ic:1.2-SNAPSHOT",
