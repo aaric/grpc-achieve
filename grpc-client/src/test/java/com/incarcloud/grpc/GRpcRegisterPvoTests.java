@@ -3,17 +3,16 @@ package com.incarcloud.grpc;
 import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.boar.cmd.CommandFactory;
 import com.incarcloud.boar.cmd.CommandType;
-import com.incarcloud.boar.datapack.DataParserIc;
 import com.incarcloud.boar.datapack.IcCommandFactory;
 import com.incarcloud.boar.datapack.ic.model.control.BluetoothControlData;
 import com.incarcloud.boar.datapack.ic.model.control.DoorControlData;
 import com.incarcloud.boar.datapack.ic.utils.IcDataPackUtils;
 import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
+import com.incarcloud.proto.pvo.ControlServiceGrpc;
 import com.incarcloud.proto.pvo.IcDataServiceGrpc;
 import com.incarcloud.proto.pvo.Jt808DataServiceGrpc;
 import com.incarcloud.proto.pvo.Pvo;
-import com.incarcloud.proto.register.GatewayServiceGrpc;
 import com.incarcloud.proto.register.PvoServiceGrpc;
 import com.incarcloud.proto.register.Register;
 import io.grpc.ManagedChannel;
@@ -24,7 +23,6 @@ import io.netty.buffer.ByteBufUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -107,71 +105,53 @@ public class GRpcRegisterPvoTests {
         String imei = "867858032224872";
         long msgSn = Instant.now().getEpochSecond();
 
-        // 注册登记查询deviceId所属gateway
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000) //116.63.79.61
-                .usePlaintext()
-                .build();
-        GatewayServiceGrpc.GatewayServiceBlockingStub stub = GatewayServiceGrpc.newBlockingStub(channel);
-        Register.QueryDeviceParam param = Register.QueryDeviceParam.newBuilder()
-                .setDeviceId(deviceId)
-                .build();
-        Register.QueryDeviceData data = stub.queryDevice(param);
-        channel.shutdownNow();
-
-        log.info("data: {}", data);
-
         // 发下指令
-        if (StringUtils.isNotBlank(data.getHostname())) {
-            // 创建指令
-            CommandFactory commandFactory = new IcCommandFactory();
-            DoorControlData controlData = new DoorControlData();
-            controlData.setBoxFlag(deviceId);
-            controlData.setCommandId(msgSn);
-            controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
-            ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.OPEN_DOOR, controlData);
-            byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
-            log.info(ByteBufUtil.hexDump(commandByteBuf));
+        CommandFactory commandFactory = new IcCommandFactory();
+        DoorControlData controlData = new DoorControlData();
+        controlData.setBoxFlag(deviceId);
+        controlData.setCommandId(msgSn);
+        controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
+        ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.OPEN_DOOR, controlData);
+        byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
+        log.info(ByteBufUtil.hexDump(commandByteBuf));
 
-            // 执行指令
-            ManagedChannel channel2 = ManagedChannelBuilder.forAddress(data.getHostname(), data.getPort())
-                    .usePlaintext()
-                    .build();
-            CommandServiceGrpc.CommandServiceBlockingStub stub2 = CommandServiceGrpc.newBlockingStub(channel2);
-            Gateway.CommandParam param2 = Gateway.CommandParam.newBuilder()
-                    /*.setMsgId(0x07)*/
-                    .setMsgSn(msgSn)
-                    .setDeviceId(deviceId)
-                    .setVin(vin)
-                    .setProtocolName(DataParserIc.PROTOCOL_NAME)
-                    .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
-                    .build();
-
-            Gateway.CommandData data2 = stub2.execute(param2);
-            channel2.shutdownNow();
-
-            log.info("data2: {}", data2);
-        }
-    }
-
-    @Test
-    public void testExecuteCommandForResult() {
-        byte[] commandBytes = HexStringUtil.parseBytes("292907001E0A435332303230303132335ED073C202000000000000001B653C30DFB00D");
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40020)
+        // 执行指令
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000)
                 .usePlaintext()
                 .build();
-        CommandServiceGrpc.CommandServiceBlockingStub stub = CommandServiceGrpc.newBlockingStub(channel);
+        CommandServiceGrpc.CommandServiceBlockingStub stub2 = CommandServiceGrpc.newBlockingStub(channel);
         Gateway.CommandParam param = Gateway.CommandParam.newBuilder()
-                .setMsgSn(1590719426)
-                .setDeviceId("CS20200123")
-                .setVin("LFV2A21J970002019")
-                .setProtocolName(DataParserIc.PROTOCOL_NAME)
+                /*.setMsgId(0x07)*/
+                .setMsgSn(msgSn)
+                .setDeviceId(deviceId)
+                .setVin(vin)
                 .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
                 .build();
 
-        Gateway.CommandData data2 = stub.executeForResult(param);
+        Gateway.CommandData data = stub2.execute(param);
         channel.shutdownNow();
 
-        log.info("data2: {}", data2);
+        log.info("data2: {}", data);
+    }
+
+    @Test
+    public void testExecuteCommandByPvo() {
+        byte[] commandBytes = HexStringUtil.parseBytes("292907001E0A435332303230303132335ED073C202000000000000001B653C30DFB00D");
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+                .usePlaintext()
+                .build();
+        ControlServiceGrpc.ControlServiceBlockingStub stub = ControlServiceGrpc.newBlockingStub(channel);
+        Pvo.ControlParam param = Pvo.ControlParam.newBuilder()
+                .setMsgSn(1)
+                .setDeviceId("18168000002")
+                .setVin("LFV2A21J970002010")
+                .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
+                .build();
+
+        Pvo.ControlData data = stub.execute(param);
+        channel.shutdownNow();
+
+        log.info("data: {}", data);
     }
 
     @Test
