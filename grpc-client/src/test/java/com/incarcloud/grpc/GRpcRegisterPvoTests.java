@@ -1,11 +1,11 @@
 package com.incarcloud.grpc;
 
-import com.github.io.protocol.utils.HexStringUtil;
 import com.incarcloud.boar.cmd.CommandFactory;
 import com.incarcloud.boar.cmd.CommandType;
 import com.incarcloud.boar.datapack.IcCommandFactory;
 import com.incarcloud.boar.datapack.ic.model.control.BluetoothControlData;
 import com.incarcloud.boar.datapack.ic.model.control.DoorControlData;
+import com.incarcloud.boar.datapack.ic.model.control.RequstVehicleInfoControlData;
 import com.incarcloud.boar.datapack.ic.utils.IcDataPackUtils;
 import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
@@ -102,7 +102,6 @@ public class GRpcRegisterPvoTests {
         // 设备号
         String vin = "TESTBOX0000000001";
         String deviceId = "KEYTEST000001";
-        String imei = "867858032224872";
         long msgSn = Instant.now().getEpochSecond();
 
         // 发下指令
@@ -135,16 +134,28 @@ public class GRpcRegisterPvoTests {
     }
 
     @Test
-    public void testExecuteCommandByPvo() {
-        byte[] commandBytes = HexStringUtil.parseBytes("292907001E0A435332303230303132335ED073C202000000000000001B653C30DFB00D");
+    public void testExecuteCommandByPvo() throws Exception {
+        String vin = "TESTGPS0000000001";
+        String deviceId = "KEYTEST000001";
+        long msgSn = Instant.now().getEpochSecond();
+
+        CommandFactory commandFactory = new IcCommandFactory();
+        RequstVehicleInfoControlData controlData = new RequstVehicleInfoControlData();
+        controlData.setBoxFlag(deviceId);
+        controlData.setCommandId(msgSn);
+        controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
+        ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.REQUEST_VEHICLE_DATA, controlData);
+        byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
+        log.info(ByteBufUtil.hexDump(commandByteBuf));
+
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
                 .build();
         ControlServiceGrpc.ControlServiceBlockingStub stub = ControlServiceGrpc.newBlockingStub(channel);
         Pvo.ControlParam param = Pvo.ControlParam.newBuilder()
-                .setMsgSn(1)
-                .setDeviceId("18168000002")
-                .setVin("LFV2A21J970002010")
+                .setMsgSn(msgSn)
+                .setDeviceId(deviceId)
+                .setVin(vin)
                 .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
                 .build();
 
