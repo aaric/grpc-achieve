@@ -134,10 +134,10 @@ public class GRpcRegisterPvoTests {
     }
 
     @Test
-    public void testExecuteCommandByPvo() throws Exception {
+    public void testExecuteCommandForResult() throws Exception {
         String vin = "TESTGPS0000000001";
         String deviceId = "KEYTEST000001";
-        long msgSn = Instant.now().getEpochSecond();
+        long msgSn = 2; //Instant.now().getEpochSecond();
 
         CommandFactory commandFactory = new IcCommandFactory();
         RequstVehicleInfoControlData controlData = new RequstVehicleInfoControlData();
@@ -159,7 +159,7 @@ public class GRpcRegisterPvoTests {
                 .setCommandString(Base64.getEncoder().encodeToString(commandBytes))
                 .build();
 
-        Pvo.ControlData data = stub.execute(param);
+        Pvo.ControlData data = stub.executeForResult(param);
         channel.shutdownNow();
 
         log.info("data: {}", data);
