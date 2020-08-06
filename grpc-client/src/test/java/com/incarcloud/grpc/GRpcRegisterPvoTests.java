@@ -172,7 +172,8 @@ public class GRpcRegisterPvoTests {
                 .build();
         Jt808DataServiceGrpc.Jt808DataServiceBlockingStub stub = Jt808DataServiceGrpc.newBlockingStub(channel);
         Pvo.StatusParam param = Pvo.StatusParam.newBuilder()
-                .setVin("LFV2A21J970002010")
+                .setVin("TESTGPS0000000001")
+                .setDeviceId("91111000001")
                 .build();
         Pvo.StatusData data = stub.queryStatus(param);
         channel.shutdownNow();
@@ -187,7 +188,8 @@ public class GRpcRegisterPvoTests {
                 .build();
         Jt808DataServiceGrpc.Jt808DataServiceBlockingStub stub = Jt808DataServiceGrpc.newBlockingStub(channel);
         Pvo.PositionParam param = Pvo.PositionParam.newBuilder()
-                .setVin("LFV2A21J970002010")
+                .setVin("TESTGPS0000000001")
+                .setDeviceId("91111000001")
                 .build();
         Pvo.PositionData data = stub.queryPosition(param);
         channel.shutdownNow();
@@ -254,10 +256,12 @@ public class GRpcRegisterPvoTests {
         });
 
         // 构建请求参数
-        String testVin = "LFV2A21J970002010"; //LFV2A21J970002040
+        String testVin = "TESTGPS0000000001";
+        String testDeviceId = "91111000001";
         Pvo.PositionDataStreamParam request = Pvo.PositionDataStreamParam.newBuilder()
                 .setAppId("test")
                 .setVin(testVin)
+                .setDeviceId(testDeviceId)
                 .setType(1)
                 .build();
 
@@ -271,6 +275,7 @@ public class GRpcRegisterPvoTests {
         // 关闭监听
         request = Pvo.PositionDataStreamParam.newBuilder()
                 .setVin(testVin)
+                .setDeviceId(testDeviceId)
                 .setType(2)
                 .build();
         observer.onNext(request);
