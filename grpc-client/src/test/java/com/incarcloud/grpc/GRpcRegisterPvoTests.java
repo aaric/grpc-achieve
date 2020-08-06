@@ -294,7 +294,8 @@ public class GRpcRegisterPvoTests {
                 .build();
         IcDataServiceGrpc.IcDataServiceBlockingStub stub = IcDataServiceGrpc.newBlockingStub(channel);
         Pvo.VehicleStatusParam param = Pvo.VehicleStatusParam.newBuilder()
-                .setVin("LFV2A21J970002020")
+                .setVin("TESTGPS0000000001")
+                .setDeviceId("KEYTEST000001")
                 .build();
         Pvo.VehicleStatusData data = stub.queryVehicleStatus(param);
         channel.shutdownNow();
@@ -339,10 +340,12 @@ public class GRpcRegisterPvoTests {
         });
 
         // 构建请求参数
-        String testVin = "TEST0000000000050";
+        String testVin = "TESTGPS0000000001";
+        String testDeviceId = "KEYTEST000001";
         Pvo.VehicleStatusDataStreamParam request = Pvo.VehicleStatusDataStreamParam.newBuilder()
                 .setAppId("test")
                 .setVin(testVin)
+                .setDeviceId(testDeviceId)
                 .setType(1)
                 .build();
 
@@ -356,6 +359,7 @@ public class GRpcRegisterPvoTests {
         // 关闭监听
         request = Pvo.VehicleStatusDataStreamParam.newBuilder()
                 .setVin(testVin)
+                .setDeviceId(testDeviceId)
                 .setType(2)
                 .build();
         observer.onNext(request);
