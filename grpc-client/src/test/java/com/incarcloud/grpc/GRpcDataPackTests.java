@@ -109,28 +109,28 @@ public class GRpcDataPackTests {
     @Test
     public void testQueryRangeForIcOverview() throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long start = 1592875710000L;
-        long end = 1592882910000L;
-        System.err.println(dateFormat.format(new Date(start)));
-        System.err.println(dateFormat.format(new Date(end)));
+//        long start = 1592875710000L;
+//        long end = 1592882910000L;
+//        System.err.println(dateFormat.format(new Date(start)));
+//        System.err.println(dateFormat.format(new Date(end)));
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("122.9.49.238", 40010)
                 .usePlaintext()
                 .build();
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
         DataPack.RangeParam param = DataPack.RangeParam.newBuilder()
-                .setVin("VINTEST0000100001") //车架号-LVGBPB9E7KG006111
-//                .setBeginTime(dateFormat.parse("2020-06-01 00:00:00").getTime()) //开始时间
-//                .setEndTime(Instant.now().toEpochMilli()) //结束时间
-                .setBeginTime(start) //开始时间
-                .setEndTime(end) //结束时间
+                .setVin("LE4WG7HB5LL616925")
+                .setBeginTime(dateFormat.parse("2020-08-11 09:52:00").getTime()) //开始时间
+                .setEndTime(dateFormat.parse("2020-08-12 00:00:00").getTime()) //结束时间
+//                .setBeginTime(start) //开始时间
+//                .setEndTime(end) //结束时间
                 .setPageSize(9999) //返回记录条数
                 .setDesc(true) //是否倒序
                 .build();
         DataPack.IcOverviewDataList data = stub.queryRangeForIcOverview(param);
         channel.shutdownNow();
 
-        log.info("data: {}", data);
+        log.info("data: {}", data.getIcOverviewDataCount());
         Assertions.assertNotNull(data);
     }
 
