@@ -114,7 +114,7 @@ public class GRpcDataPackTests {
         System.err.println(dateFormat.format(new Date(start)));
         System.err.println(dateFormat.format(new Date(end)));
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.70.11", 40010)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
                 .build();
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
@@ -175,6 +175,27 @@ public class GRpcDataPackTests {
         channel.shutdownNow();
 
         // 车辆状态：0-未知, 1-在线, 2-离线, 3-异常, 4-行驶中, 5-待机
+        log.info("data: {}", data);
+        Assertions.assertNotNull(data);
+    }
+
+    @Test
+    public void testQueryRangeForIcPosition() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+                .usePlaintext()
+                .build();
+        DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
+        DataPack.RangeParam param = DataPack.RangeParam.newBuilder()
+                .setVin("LE4WG7HB5LL616925")
+                .setBeginTime(dateFormat.parse("2020-08-11 09:52:00").getTime()) //开始时间
+                .setEndTime(dateFormat.parse("2020-08-12 00:00:00").getTime()) //结束时间
+                .setPageSize(9999) //返回记录条数
+                .setDesc(true) //是否倒序
+                .build();
+        DataPack.IcPositionDataList data = stub.queryRangeForIcPosition(param);
+        channel.shutdownNow();
+
         log.info("data: {}", data);
         Assertions.assertNotNull(data);
     }
