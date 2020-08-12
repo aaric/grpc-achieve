@@ -380,4 +380,21 @@ public class GRpcRegisterPvoTests {
             log.info("end");
         }
     }
+
+    @Test
+    public void testQueryDeviceStatus() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+                .usePlaintext()
+                .build();
+        IcDataServiceGrpc.IcDataServiceBlockingStub stub = IcDataServiceGrpc.newBlockingStub(channel);
+
+        Pvo.DeviceStatusParam param = Pvo.DeviceStatusParam.newBuilder()
+                .setDeviceId("KEYTEST000001")
+                .setVin("TESTBOX0000000001")
+                .build();
+        Pvo.DeviceStatusData data = stub.queryDeviceStatus(param);
+        channel.shutdownNow();
+
+        log.info("data: {}", data);
+    }
 }

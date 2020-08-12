@@ -12,7 +12,7 @@ dependencies {
             "org.apache.commons:commons-collections4",
 
             "com.incarcloud:ic-grpc-register-support:3.0-SNAPSHOT",
-            "com.incarcloud:ic-grpc-pvo-support:3.0-SNAPSHOT",
+            "com.incarcloud:ic-grpc-pvo-support:3.1-SNAPSHOT",
             "com.incarcloud:ic-grpc-gateway-support:3.0-SNAPSHOT",
             //"com.incarcloud:ic-connectedcar-platform-support:3.5-SNAPSHOT",
 
