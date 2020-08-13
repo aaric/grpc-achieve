@@ -3,6 +3,7 @@ package com.incarcloud.grpc;
 import com.incarcloud.boar.cmd.CommandFactory;
 import com.incarcloud.boar.cmd.CommandType;
 import com.incarcloud.boar.datapack.IcCommandFactory;
+import com.incarcloud.boar.datapack.ic.model.control.BaseControlData;
 import com.incarcloud.boar.datapack.ic.model.control.BluetoothControlData;
 import com.incarcloud.boar.datapack.ic.model.control.DoorControlData;
 import com.incarcloud.boar.datapack.ic.model.control.RequstVehicleInfoControlData;
@@ -20,6 +21,7 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -86,6 +88,8 @@ public class GRpcRegisterPvoTests {
     @Test
     public void testCreateCommandBytes() throws Exception {
         CommandFactory commandFactory = new IcCommandFactory();
+
+        // Bluetooth Secret
         BluetoothControlData controlData = new BluetoothControlData();
         controlData.setBoxFlag("KEYTEST051");
         controlData.setCommandId(1L); //msgSn
@@ -94,7 +98,19 @@ public class GRpcRegisterPvoTests {
 
         ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.SET_BLUETOOTH_SECRET, controlData);
         log.info(ByteBufUtil.hexDump(commandByteBuf));
-        Assertions.assertNotNull(commandByteBuf);
+        ReferenceCountUtil.release(commandByteBuf); //记得释放buffer
+
+        // Restart
+        BaseControlData baseControlData = new BaseControlData();
+        baseControlData.setBoxFlag("KEYTEST051");
+        baseControlData.setCommandId(1L); //统一获取流水号，找涛哥
+        baseControlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
+
+        commandByteBuf = commandFactory.createCommand(CommandType.RESTART_TERMINAL, baseControlData);
+        log.info(ByteBufUtil.hexDump(commandByteBuf));
+        String cmdString = Base64.getEncoder().encodeToString(commandByteBuf.array());
+        log.info(cmdString);
+        ReferenceCountUtil.release(commandByteBuf); //记得释放buffer
     }
 
     @Test
