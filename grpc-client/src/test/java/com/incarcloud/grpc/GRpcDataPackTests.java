@@ -184,7 +184,7 @@ public class GRpcDataPackTests {
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
 
         DataPack.KeyParam param = DataPack.KeyParam.newBuilder()
-                .setRowKey("0510000TESTGPS0000000001CHECK##########20200818151753####0001")
+                .setRowKey("0510000TESTGPS0000000001DEVICE#########20200818162708####0001")
                 .build();
         DataPack.IcDeviceData data = stub.queryDataForIcDevice(param);
         channel.shutdownNow();
