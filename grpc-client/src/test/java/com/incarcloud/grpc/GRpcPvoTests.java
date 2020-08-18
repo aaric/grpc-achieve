@@ -6,7 +6,6 @@ import com.incarcloud.boar.datapack.IcCommandFactory;
 import com.incarcloud.boar.datapack.ic.model.control.BaseControlData;
 import com.incarcloud.boar.datapack.ic.model.control.BluetoothControlData;
 import com.incarcloud.boar.datapack.ic.model.control.DoorControlData;
-import com.incarcloud.boar.datapack.ic.model.control.RequstVehicleInfoControlData;
 import com.incarcloud.boar.datapack.ic.utils.IcDataPackUtils;
 import com.incarcloud.proto.gateway.CommandServiceGrpc;
 import com.incarcloud.proto.gateway.Gateway;
@@ -183,7 +182,7 @@ public class GRpcPvoTests {
         // 获取设备信息
         BaseControlData baseControlData = new BaseControlData();
         baseControlData.setBoxFlag(deviceId);
-        baseControlData.setCommandId(1L); //统一获取流水号
+        baseControlData.setCommandId(msgSn); //统一获取流水号
         baseControlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
         ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.QUERY_TERMINAL_ATTRS, baseControlData);
 

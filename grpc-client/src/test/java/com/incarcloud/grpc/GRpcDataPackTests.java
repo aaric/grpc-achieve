@@ -3,8 +3,6 @@ package com.incarcloud.grpc;
 import com.incarcloud.boar.util.RowKeyUtil;
 import com.incarcloud.proto.pvo.DataPack;
 import com.incarcloud.proto.pvo.DataPackServiceGrpc;
-import com.incarcloud.proto.pvo.IcDataServiceGrpc;
-import com.incarcloud.proto.pvo.Pvo;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.netty.buffer.ByteBufUtil;
@@ -93,10 +91,10 @@ public class GRpcDataPackTests {
                 .build();
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
         DataPack.RangeParam param = DataPack.RangeParam.newBuilder()
-                .setVin("LVGBPB9E7KG006111") //车架号
-                .setBeginTime(dateFormat.parse("2020-06-01 00:00:00").getTime()) //开始时间
+                .setVin("TESTGPS0000000001") //车架号
+                .setBeginTime(dateFormat.parse("2020-08-18 00:00:00").getTime()) //开始时间
                 .setEndTime(Instant.now().toEpochMilli()) //结束时间
-                .setPageSize(1) //返回记录条数
+                .setPageSize(10) //返回记录条数
                 .setDesc(true) //是否倒序
                 .build();
         DataPack.IcCheckDataList data = stub.queryRangeForIcCheck(param);
@@ -114,12 +112,12 @@ public class GRpcDataPackTests {
         System.err.println(dateFormat.format(new Date(start)));
         System.err.println(dateFormat.format(new Date(end)));
 
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("116.63.70.11", 40010)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
                 .build();
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
         DataPack.RangeParam param = DataPack.RangeParam.newBuilder()
-                .setVin("VINTEST0000100001") //车架号-LVGBPB9E7KG006111
+                .setVin("TESTGPS0000000001") //车架号-LVGBPB9E7KG006111
 //                .setBeginTime(dateFormat.parse("2020-06-01 00:00:00").getTime()) //开始时间
 //                .setEndTime(Instant.now().toEpochMilli()) //结束时间
                 .setBeginTime(start) //开始时间
@@ -163,18 +161,54 @@ public class GRpcDataPackTests {
     }
 
     @Test
-    public void testQueryStatus() throws Exception {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //122.9.51.1
+    public void testQueryDataForIcCheckLatest() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
                 .build();
-        IcDataServiceGrpc.IcDataServiceBlockingStub stub = IcDataServiceGrpc.newBlockingStub(channel);
-        Pvo.StatusParam param = Pvo.StatusParam.newBuilder()
-                .setVin("LVGBPB9E7KG006111") //车架号
+        DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
+
+        DataPack.VinParam param = DataPack.VinParam.newBuilder()
+                .setVin("TESTGPS0000000001")
                 .build();
-        Pvo.StatusData data = stub.queryStatus(param);
+        DataPack.IcCheckData data = stub.queryDataForIcCheckLatest(param);
         channel.shutdownNow();
 
-        // 车辆状态：0-未知, 1-在线, 2-离线, 3-异常, 4-行驶中, 5-待机
+        log.info("data: {}", data);
+    }
+
+    @Test
+    public void testQueryDataForIcDevice() {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+                .usePlaintext()
+                .build();
+        DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
+
+        DataPack.KeyParam param = DataPack.KeyParam.newBuilder()
+                .setRowKey("0510000TESTGPS0000000001CHECK##########20200818151753####0001")
+                .build();
+        DataPack.IcDeviceData data = stub.queryDataForIcDevice(param);
+        channel.shutdownNow();
+
+        log.info("data: {}", data);
+    }
+
+    @Test
+    public void testQueryRangeForIcDevice() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
+                .usePlaintext()
+                .build();
+        DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
+        DataPack.RangeParam param = DataPack.RangeParam.newBuilder()
+                .setVin("TESTGPS0000000001") //车架号
+                .setBeginTime(dateFormat.parse("2020-08-18 00:00:00").getTime()) //开始时间
+                .setEndTime(Instant.now().toEpochMilli()) //结束时间
+                .setPageSize(10) //返回记录条数
+                .setDesc(true) //是否倒序
+                .build();
+        DataPack.IcDeviceDataList data = stub.queryRangeForIcDevice(param);
+        channel.shutdownNow();
+
         log.info("data: {}", data);
         Assertions.assertNotNull(data);
     }
