@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
  * @version 0.6.0-SNAPSHOT
  */
 @Slf4j
-public class GRpcRegisterPvoTests {
+public class GRpcPvoTests {
 
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -91,8 +91,8 @@ public class GRpcRegisterPvoTests {
 
         // Bluetooth Secret
         BluetoothControlData controlData = new BluetoothControlData();
-        controlData.setBoxFlag("KEYTEST051");
-        controlData.setCommandId(1L); //msgSn
+        controlData.setBoxFlag("KEYTEST000001");
+        controlData.setCommandId(1L); //统一获取流水号
         controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
         controlData.setBluetoothSecret(IcDataPackUtils.strToBcd("867858032224872"));
 
@@ -102,8 +102,8 @@ public class GRpcRegisterPvoTests {
 
         // Restart
         BaseControlData baseControlData = new BaseControlData();
-        baseControlData.setBoxFlag("KEYTEST051");
-        baseControlData.setCommandId(1L); //统一获取流水号，找涛哥
+        baseControlData.setBoxFlag("KEYTEST000001");
+        baseControlData.setCommandId(1L); //统一获取流水号
         baseControlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
 
         commandByteBuf = commandFactory.createCommand(CommandType.RESTART_TERMINAL, baseControlData);
@@ -111,24 +111,40 @@ public class GRpcRegisterPvoTests {
         String cmdString = Base64.getEncoder().encodeToString(commandByteBuf.array());
         log.info(cmdString);
         ReferenceCountUtil.release(commandByteBuf); //记得释放buffer
+
+        // Device
+        baseControlData = new BaseControlData();
+        baseControlData.setBoxFlag("KEYTEST000001");
+        baseControlData.setCommandId(1L); //统一获取流水号
+        baseControlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
+
+        commandByteBuf = commandFactory.createCommand(CommandType.QUERY_TERMINAL_ATTRS, baseControlData);
+        log.info(ByteBufUtil.hexDump(commandByteBuf));
+        cmdString = Base64.getEncoder().encodeToString(commandByteBuf.array());
+        log.info(cmdString);
+        ReferenceCountUtil.release(commandByteBuf); //记得释放buffer
     }
 
     @Test
     public void testExecuteCommand() throws Exception {
         // 设备号
-        String vin = "TESTBOX0000000001";
+        String vin = "TESTGPS0000000001";
         String deviceId = "KEYTEST000001";
         long msgSn = Instant.now().getEpochSecond();
 
         // 发下指令
         CommandFactory commandFactory = new IcCommandFactory();
+
+        // 解锁车门
         DoorControlData controlData = new DoorControlData();
         controlData.setBoxFlag(deviceId);
         controlData.setCommandId(msgSn);
         controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
         ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.OPEN_DOOR, controlData);
+
         byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
         log.info(ByteBufUtil.hexDump(commandByteBuf));
+        ReferenceCountUtil.release(commandByteBuf);
 
         // 执行指令
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40000)
@@ -156,13 +172,24 @@ public class GRpcRegisterPvoTests {
         long msgSn = 2; //Instant.now().getEpochSecond();
 
         CommandFactory commandFactory = new IcCommandFactory();
-        RequstVehicleInfoControlData controlData = new RequstVehicleInfoControlData();
+
+        // 请求整车数据
+        /*RequstVehicleInfoControlData controlData = new RequstVehicleInfoControlData();
         controlData.setBoxFlag(deviceId);
         controlData.setCommandId(msgSn);
         controlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
-        ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.REQUEST_VEHICLE_DATA, controlData);
+        ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.REQUEST_VEHICLE_DATA, controlData);*/
+
+        // 获取设备信息
+        BaseControlData baseControlData = new BaseControlData();
+        baseControlData.setBoxFlag(deviceId);
+        baseControlData.setCommandId(1L); //统一获取流水号
+        baseControlData.setKey(Base64.getDecoder().decode("MDEyMzQ1Njc4OWFiY2RlZg=="));
+        ByteBuf commandByteBuf = commandFactory.createCommand(CommandType.QUERY_TERMINAL_ATTRS, baseControlData);
+
         byte[] commandBytes = ByteBufUtil.getBytes(commandByteBuf);
         log.info(ByteBufUtil.hexDump(commandByteBuf));
+        ReferenceCountUtil.release(commandByteBuf);
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010)
                 .usePlaintext()
