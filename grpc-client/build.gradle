@@ -15,6 +15,7 @@ dependencies {
             "com.incarcloud:ic-grpc-pvo-support:3.2-SNAPSHOT",
             "com.incarcloud:ic-grpc-gateway-support:3.0-SNAPSHOT",
             //"com.incarcloud:ic-connectedcar-platform-support:3.5-SNAPSHOT",
+            "com.incarcloud:ic-grpc-monitor-support:1.2-SNAPSHOT",
 
             "com.incarcloud:boar-datapack-ic:1.2-SNAPSHOT",
 
