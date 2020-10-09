@@ -46,7 +46,7 @@ public class GRpcDataPackTests {
         //String rowKey = RowKeyUtil.makeMaxRowKey("CS123456720242617", "OVERVIEW");
         //String rowKey = RowKeyUtil.makeMaxRowKey("LFV2A21J970002020", "OVERVIEW");
         //String rowKey = RowKeyUtil.makeMaxRowKey("LVGBPB9E7KG006111", "CHECK");
-        String rowKey = RowKeyUtil.makeMaxRowKey("VINTEST0000100001", "OVERVIEW");
+        String rowKey = RowKeyUtil.makeMaxRowKey("TESTSKT0000000001", "OVERVIEW");
         log.info("row key: {}", rowKey);
         Assertions.assertNotNull(rowKey);
     }
@@ -69,12 +69,12 @@ public class GRpcDataPackTests {
 
     @Test
     public void testQueryDataForIcOverview() {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("127.0.0.1", 40010) //122.9.51.1
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("10.0.11.25", 40010) //122.9.51.1
                 .usePlaintext()
                 .build();
         DataPackServiceGrpc.DataPackServiceBlockingStub stub = DataPackServiceGrpc.newBlockingStub(channel);
         DataPack.KeyParam param = DataPack.KeyParam.newBuilder()
-                .setRowKey("d98e000LVGBPB9E7KG006111OVERVIEW#######20200617093645####0001")
+                .setRowKey("1e11000LFV2A21J970002020OVERVIEW#######20200429164949####0001")
                 .build();
         DataPack.IcOverviewData data = stub.queryDataForIcOverview(param);
         channel.shutdownNow();

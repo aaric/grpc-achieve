@@ -35,18 +35,40 @@ public class ObserverPatternTests {
         }
     }
 
-    static class ValueObserver implements Observer {
+    static class Value1Observer implements Observer {
 
         private Subject subject;
 
-        public ValueObserver(Subject subject) {
+        public Value1Observer(Subject subject) {
             this.subject = subject;
             this.subject.addObserver(this);
         }
 
         @Override
         public void update(Observable o, Object arg) {
-            System.err.println("Update called with Arguments: " + arg);
+//            if (1 == 1) {
+//                throw new IllegalArgumentException("fake exception");
+//            }
+            System.err.println("Update <1> called with Arguments: " + arg);
+        }
+
+        public void destroy() {
+            this.subject.deleteObserver(this);
+        }
+    }
+
+    static class Value2Observer implements Observer {
+
+        private Subject subject;
+
+        public Value2Observer(Subject subject) {
+            this.subject = subject;
+            this.subject.addObserver(this);
+        }
+
+        @Override
+        public void update(Observable o, Object arg) {
+            System.err.println("Update <2> called with Arguments: " + arg);
         }
 
         public void destroy() {
@@ -57,13 +79,15 @@ public class ObserverPatternTests {
     @Test
     public void testObserver() {
         Subject subject = new Subject("hello world");
-        ValueObserver valueObserver = new ValueObserver(subject);
+        Value1Observer value1Observer = new Value1Observer(subject);
+        Value2Observer value2Observer = new Value2Observer(subject);
 
         subject.setValue("hello java");
 
         subject.setValue("hello kotlin");
 
-        valueObserver.destroy();
+        value1Observer.destroy();
+        value2Observer.destroy();
 
         subject.setValue("hello groovy");
     }
